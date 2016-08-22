@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/layoutDots"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dots_height"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="@dimen/dots_margin_bottom"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"></LinearLayout>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@color/landingpage_background"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:paddingTop="7dp"
+                android:orientation="vertical"
+                >
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="5dp"
+
+                app:fillColor="#FFFFFF"
+                app:pageColor="@color/landingpage_background"
+                app:strokeColor="#FFFFFF"
+                app:snap="false" />
+            </LinearLayout>
+        <TextView android:id="@+id/logo_landingpage_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QUICK N' CLEAN"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:textColor="#FFFFFF"
+            />
+            </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="7dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/landingpagesignupbutton"
+            android:textColor="#210000"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:text="Gabung"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_bg"
+            style="@style/Widget.AppCompat.Button.Colored"
+            />
+    <Button
+        android:id="@+id/landingpageloginbutton"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        android:text="Masuk"
+        android:textColor="#210000"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_bg"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
+
+
+
+    </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

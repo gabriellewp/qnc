@@ -1,0 +1,131 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".NewAddressMapActivity"
+    >
+
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabrielle.laundryonline.NewAddressMapActivity" />
+    <fragment
+        android:id="@+id/place_autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        android:background="@color/under_map"
+        />
+<LinearLayout
+    android:id="@+id/new_address_progress_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    >
+    <ProgressBar
+        android:id="@+id/new_address_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_weight="1" />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:id="@+id/newaddressform"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/landingpage_background_2">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel">
+
+            <EditText
+                android:id="@+id/addressOnMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                android:textColor="#E9FA3E"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel">
+
+            <EditText
+                android:id="@+id/addressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Detail"
+                android:textColor="#E9FA3E"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel">
+
+            <EditText
+                android:id="@+id/addressLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Label"
+                android:textColor="#E9FA3E"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="4"
+            android:orientation="horizontal"
+
+            >
+            <ImageButton
+                android:id="@+id/prev_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:src="@mipmap/ic_navigate_before_black_24dp"
+                android:background="@drawable/round_button_bg"
+                android:layout_marginLeft="20dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                />
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_navigate_next_black_24dp"
+            android:background="@drawable/round_button_bg"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginRight="20dp"
+            />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>
+</FrameLayout>

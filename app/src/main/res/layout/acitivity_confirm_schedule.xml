@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConfirmScheduleActivity">
+
+        <ProgressBar
+            android:id="@+id/schedule_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:background="#FFFFFF"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_check_black_24dp"
+            android:drawablePadding="5dp"
+            android:singleLine="true"
+            android:text="KONFIRMASI"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D6E729">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detailForm"
+            android:layout_gravity="top|center"
+            android:padding="5dp"
+            android:background="#D6E729"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="ALAMAT"
+                android:textColor="#FFFFFF"
+               />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/addressLabel"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="ID PESANAN"
+                android:textColor="#FFFFFF" />
+            <TextView
+                android:id="@+id/labelAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="#41802F"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/completeAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="#41802F"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="DETAIL"
+                android:textColor="#FFFFFF"
+
+                />
+            <TextView
+                android:id="@+id/detailAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="#41802F"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="CATATAN UNTUK KURIR"
+                android:textColor="#FFFFFF"
+
+                />
+            <EditText
+                android:id="@+id/specialInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="#41802F"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="JADWAL 1"
+                android:textColor="#FFFFFF"
+
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/transparent"
+                android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/jadwal1Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="#41802F"
+                android:layout_alignParentLeft="true"
+                />
+                <TextView
+                    android:id="@+id/jadwal1Jam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="#41802F"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="JADWAL 2"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/transparent"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:id="@+id/jadwal2Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="#41802F"
+                    android:layout_alignParentLeft="true"
+                    />
+                <TextView
+                    android:id="@+id/jadwal2Jam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="#41802F"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+
+                >
+                <ImageButton
+                    android:id="@+id/prev_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:src="@mipmap/ic_navigate_before_black_24dp"
+                    android:background="@drawable/round_button_bg"
+                    android:layout_marginLeft="20dp"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    />
+                <ImageButton
+                    android:id="@+id/next_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/ic_navigate_next_black_24dp"
+                    android:background="@drawable/round_button_bg"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_marginRight="20dp"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

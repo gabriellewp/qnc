@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/landingpage_background</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="TextLabel" parent="Widget.Design.TextInputLayout">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="colorAccent">#FFFFFF</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+
+    </style>
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:src">@drawable/facebookiconwhite</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+    <style name="DateTab">
+        <item name="android:background">@drawable/date_tab_background</item>
+        </style>
+</resources>

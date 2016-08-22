@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".GetPhoneTokenActivity">
+
+    <ProgressBar
+        android:id="@+id/phoneVerificationProgress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_weight="1" />
+    <LinearLayout
+        android:id="@+id/verificationCodeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        >
+        <ImageView android:id="@+id/loginlogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/logo_white"
+            android:background="@color/landingpage_background"
+            />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
+            >
+
+            <EditText
+                android:id="@+id/telephoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Phone Number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#E9FA3E"
+                android:textSize="18sp"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id="@+id/verifyingCodeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:text="Verify!"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_bg"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textColor="#210000"
+            />
+    </LinearLayout>
+</LinearLayout>

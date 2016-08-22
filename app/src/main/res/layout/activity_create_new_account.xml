@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+
+    tools:context="CreateNewAccountActivity">
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_weight="1" />
+    <ScrollView
+        android:id="@+id/input_user_detail_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id = "@+id/textfield_user_detail_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/newEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:maxLines="1"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="#E9FA3E"
+                    android:textSize="18sp"/>
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/newPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#E9FA3E"
+                    android:textSize="18sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/newFrontName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama Depan"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#E9FA3E"
+                    android:textSize="18sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/newFamilyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama Belakang"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#E9FA3E"
+                    android:textSize="18sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/newTelephoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Telephone Number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#E9FA3E"
+                    android:textSize="18sp"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/create_new_account_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Register"
+                android:background="@drawable/button_bg"
+                android:textColor="#210000"
+                />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

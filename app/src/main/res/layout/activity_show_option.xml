@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    tools:context=".ShowOptionActivity"
+    >
+    <ImageView android:id="@+id/loginlogoshowoption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/logosmall"
+        android:background="#F2F2F2"
+        />
+    <TextView android:id="@+id/username_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:textSize="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+    <LinearLayout
+        android:id="@+id/calendarView1"
+        android:layout_width="fill_parent"
+        android:weightSum="3"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        >
+        <LinearLayout
+            android:id="@+id/nextOrderCalendar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:background="#EC3D68"
+            android:paddingTop="20dp"
+            >
+            <TextView android:id="@+id/dayNextOrderCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+            <TextView android:id="@+id/dateNextOrderCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+            <TextView android:id="@+id/monthYearNextOrderCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+            <TextView android:id="@+id/timeNextOrderCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/calendarViewLayout"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            >
+
+    <CalendarView
+        android:id = "@+id/calendarview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#FFFFFF"/>
+        </LinearLayout>
+        </LinearLayout>
+    <TextView android:id="@+id/remainingSaldoTextview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@color/landingpage_background"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+    <Button
+        android:id="@+id/history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:drawableTop="@mipmap/ic_history_black_24dp"
+        android:text="Status Pesanan"
+        android:background="@drawable/button_bg"
+        android:layout_weight="1"
+        android:textSize="15sp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
+    <Button
+        android:id="@+id/antar_jemput_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_date_range_black_24dp"
+        android:text="Atur Jadwal"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:textSize="15sp"
+        android:background="@drawable/button_bg"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
+
+    <!--<Button-->
+        <!--android:id="@+id/dropoff_button"-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:text="Search Dropoff Point"-->
+
+        <!--android:background="@drawable/button_bg"-->
+        <!--style="@style/Widget.AppCompat.Button.Colored"-->
+        <!--/>-->
+    <Button
+        android:id="@+id/settings"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:drawableTop="@mipmap/ic_account_box_black_24dp"
+        android:text="Pengaturan Akun"
+        android:layout_marginLeft="5dp"
+        android:textSize="15sp"
+        android:background="@drawable/button_bg"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
+
+
+        </LinearLayout>
+    <FrameLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/blackrectangle"
+        >
+        <FrameLayout
+            android:layout_height="70dp"
+            android:layout_width="120dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/blackrectangle"
+            >
+            <Button
+                android:id="@+id/beliSaldo"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:drawableTop="@mipmap/ic_account_box_black_24dp"
+                android:text="Beli Saldo"
+                android:textSize="8sp"
+                android:background="@drawable/button_bg2"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_gravity="center_horizontal|center_vertical"
+                />
+        </FrameLayout>
+    </FrameLayout>
+</LinearLayout>

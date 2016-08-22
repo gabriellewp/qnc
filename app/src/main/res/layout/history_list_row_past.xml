@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+
+    android:clickable="true"
+    android:weightSum="5"
+    >
+    <LinearLayout
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/taken_date"
+            android:textColor="@color/history_date"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/package_type"
+            android:textColor="@color/history_detail"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/history_status"
+            android:textColor="@color/history_detail"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingTop="3dp"
+        android:drawableTop="@mipmap/ic_rate_review_white_24dp"
+        android:text="BERI REVIEW"
+        android:textSize="10sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_bg_order"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
+</LinearLayout>

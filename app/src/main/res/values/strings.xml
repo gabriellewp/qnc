@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">LaundryOnline</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_empty_password">Password cannot be empty</string>
+    <string name="error_empty_name">Name cannot be empty</string>
+    <string name="error_empty_email">Email cannot be empty</string>
+    <string name="error_empty_address1">Pick up address cannot be empty</string>
+    <string name="error_empty_address2">Delivery address cannot be empty</string>
+    <string name="error_empty_payment_method">Payment Method cannot be empty</string>
+    <string name="error_empty_chosen_package">Package cannot be empty</string>
+    <string name="error_empty_telephone_number">Telephone Number cannot be empty</string>
+    <string name="email_sender">wisesas94@gmail.com</string>
+    <string name="sender_pass">Myself07</string>
+    <string name="spinner_package">Select Package</string>
+    <string name="spinner_payment">Select Payment</string>
+    <string name="spinner_cityfilter">Filter by City</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="forget_password"><u>Forgot your password?</u></string>
+    <string name="title_activity_new_address_map">Map</string>
+    <string name="facebook_app_id">1720132098226489</string>
+</resources>

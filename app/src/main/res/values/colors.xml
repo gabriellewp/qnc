@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="history_date">#222222</color>
+    <color name="history_detail">#999999</color>
+    <color name="under_map">#f5f5f5</color>
+
+    <color name="landingpage_background">#8dbd35</color>
+    <color name="landingpage_background_2">#D6E729</color>
+    <color name="dot_active">#fcfff7</color>
+    <color name="dot_inactive">#d6eab4</color>
+    <color name="darkgreen">#FF669900</color>
+    <color name="placeSelectedBg">#55C113</color>
+    <color name="placeUnselectedBg">#85D02D</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="dateSelected">#9A8F02</color>
+    <color name="dateUnselected">#B7B62A </color>
+</resources>

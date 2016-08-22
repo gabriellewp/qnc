@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowAllAddressActivity"
+    >
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_weight="1" />
+
+    <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/allAddressLayout">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.gabrielle.laundryonline.ShowAllAddressActivity" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@color/landingpage_background_2"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars = "vertical"
+            android:layout_weight="1"
+            android:id="@+id/rv1"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="@color/landingpage_background_2"
+        >
+        <ImageButton
+            android:id="@+id/add_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_add_black_24dp"
+            android:background="@drawable/round_button_bg"
+            style="@style/Widget.AppCompat.Button.Colored"
+
+
+            />
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@mipmap/ic_navigate_next_black_24dp"
+            android:background="@drawable/round_button_bg"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_alignParentRight="true"
+
+            />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
+</LinearLayout>
