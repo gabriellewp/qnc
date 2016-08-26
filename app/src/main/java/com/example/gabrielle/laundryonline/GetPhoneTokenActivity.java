@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ public class GetPhoneTokenActivity extends AppCompatActivity {
     private String uid, telNumber;
     private Context _context;
     private View mProgressView, mGetTokenView;
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,21 +60,25 @@ public class GetPhoneTokenActivity extends AppCompatActivity {
         phoneNumber = (EditText)findViewById(R.id.telephoneNumber);
         verifyButton = (Button) findViewById(R.id.verifyingCodeButton);
         intentPhoneVerification = new Intent(this, PhoneVerificationActivity.class);
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         telNumber = intent.getStringExtra("telNumber");
         uid = intent.getStringExtra("uid");
         phoneNumber.setText(telNumber);
         _context = getApplicationContext();
-        if(phoneNumber.length()!=0){
-            verifyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    telNumber = phoneNumber.getText().toString();
+        verifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                telNumber = phoneNumber.getText().toString();
+                if(telNumber.length()!=0){
                     showProgress(true);
                     new ServletPostAsyncTask().execute(new Pair<Context,String>(_context,"Manfred"));
+                }else{
+                    phoneNumber.setError("Nomor telepon tidak boleh kosong");
                 }
-            });
-        }
+
+            }
+        });
+
     }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -127,6 +133,12 @@ public class GetPhoneTokenActivity extends AppCompatActivity {
             try {
                 // Set up the request
                 //URL url = new URL("http://android-app-backend.appspot.com/hello");
+                mDatabase.child("users").child(uid).child("telNumber").setValue(telNumber);
+                try{
+                    Thread.sleep(1000);
+                }catch(Exception e){
+
+                }
                 URL url = new URL("https://api.authy.com/protected/json/phones/verification/start?api_key=3qfrirXCVmG1fhegtPCkuftoQiub3YgV");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");

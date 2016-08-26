@@ -16,22 +16,12 @@
         android:src="@drawable/logosmall"
         android:background="#F2F2F2"
         />
-    <TextView android:id="@+id/username_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:textSize="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        />
     <LinearLayout
         android:id="@+id/calendarView1"
         android:layout_width="fill_parent"
         android:weightSum="3"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         >
@@ -39,10 +29,11 @@
             android:id="@+id/nextOrderCalendar"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="#EC3D68"
             android:paddingTop="20dp"
+            android:layout_gravity="center_vertical|center_horizontal"
             >
             <TextView android:id="@+id/dayNextOrderCalendar"
                 android:layout_width="wrap_content"
@@ -82,12 +73,20 @@
             android:orientation="vertical"
             android:background="#FFFFFF"
             >
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:mcv_showOtherDates="all"
+                app:mcv_selectionColor="#00F"
 
-    <CalendarView
-        android:id = "@+id/calendarview"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#FFFFFF"/>
+                />
+    <!--<CalendarView-->
+        <!--android:id = "@+id/calendarview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:background="#FFFFFF"/>-->
         </LinearLayout>
         </LinearLayout>
     <TextView android:id="@+id/remainingSaldoTextview"
@@ -98,8 +97,8 @@
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="@color/landingpage_background"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>

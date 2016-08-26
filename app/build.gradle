@@ -16,10 +16,22 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    signingConfigs {
+        debug {
+            keyAlias 'alias_name'
+            keyPassword 'android'
+            storeFile file('C:/Users/gabrielle/.android/debug.keystore')
+            storePassword 'android'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     packagingOptions {
@@ -27,14 +39,7 @@ android {
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
     }
-    signingConfigs {
-        release {
-            storeFile file('C:/Users/gabrielle/Dropbox/gabyfile/android.jks')
-            storePassword "password"
-            keyAlias "MyReleaseKey"
-            keyPassword "password"
-        }
-    }
+
 
 }
 
@@ -59,6 +64,7 @@ dependencies {
     //compile project(':library')
     //firebase
     //compile 'com.facebook.react:react-native:0.17.0'
+    compile 'com.prolificinteractive:material-calendarview:1.4.0'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
@@ -68,10 +74,11 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile 'com.google.android.gms:play-services-location:9.4.0'
     compile 'com.google.android.gms:play-services:9.4.0'
+    compile 'com.google.android.gms:play-services-plus:9.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
-    compile 'com.google.firebase:firebase-core:9.0.2'
-    compile 'com.google.firebase:firebase-database:9.0.2'
-    compile 'com.google.firebase:firebase-auth:9.0.2'
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-database:9.4.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
     compile 'com.google.android.gms:play-services-ads:9.4.0'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.google.android.gms:play-services-gcm:9.4.0'

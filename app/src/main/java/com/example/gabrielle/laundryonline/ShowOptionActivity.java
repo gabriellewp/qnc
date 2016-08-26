@@ -3,9 +3,12 @@ package com.example.gabrielle.laundryonline;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +24,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseError;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by gabrielle on 5/28/2016.
@@ -33,9 +46,7 @@ public class ShowOptionActivity extends Activity {
     private Button mAntarJemputButton;
     private Button mDropOffPointButton;
     private Button mAccountSettings;
-    private Button mLogoutButton;
-    private String user_email;
-    private String user_firstname;
+
     private int remainingSaldo;
     private Intent intentHistory;
     private Intent intentAddOrder;
@@ -48,7 +59,9 @@ public class ShowOptionActivity extends Activity {
     private FirebaseUser user;
     private GoogleApiClient mGoogleApiClient;
     private CalendarView calendarView;
+    private MaterialCalendarView calendarViewMaterial;
     private Calendar calendar;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +69,7 @@ public class ShowOptionActivity extends Activity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_show_option);
 
-        usernameTextView = (TextView) findViewById(R.id.username_textview);
+        //usernameTextView = (TextView) findViewById(R.id.username_textview);
         dayTextView = (TextView)findViewById(R.id.dayNextOrderCalendar);
         dateTextView = (TextView)findViewById(R.id.dateNextOrderCalendar);
         monthyearTextView = (TextView) findViewById(R.id.monthYearNextOrderCalendar);
@@ -71,12 +84,12 @@ public class ShowOptionActivity extends Activity {
         //FirebaseUser user = firebaseAuth.getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
-        initializeCalendar();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         dayTextView.setText(getDay(calendar.get(Calendar.DAY_OF_WEEK)));
         dateTextView.setText("" +calendar.get(Calendar.DATE));
         monthyearTextView.setText(getMonth(calendar.get(Calendar.MONTH))+" "+calendar.get(Calendar.YEAR));
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -84,6 +97,7 @@ public class ShowOptionActivity extends Activity {
                 if (user != null) {
                     // User is signed i
                     Log.d("usershowoption","usersignin"+user.getUid());
+                    uid = user.getUid();
 //                    User user1 = mDatabase.;
 //                    Log.d("usershowoption","usersigninname"+user_firstname);
                     mDatabase.addValueEventListener((new ValueEventListener() {
@@ -93,29 +107,31 @@ public class ShowOptionActivity extends Activity {
 //                                if(snapshot.child("users").child(user.getUid()).child("verifiedTelNumber").getValue(String.class).toString()=="0"){
 //                                    showDialog();
 //                                }
+                            initializeCalendar();
                                 if(session.getLoginOption()==0){
                                     Log.d("getloginoption",0+"");
                                     //user_email = snapshot.child("users").child(user.getUid()).child("email").getValue(String.class).toString();
-                                    user_firstname = snapshot.child("users").child(user.getUid()).child("firstName").getValue(String.class).toString();
-                                    usernameTextView.setText("Welcome "+user_firstname+"!");
+                                    //user_firstname = snapshot.child("users").child(user.getUid()).child("firstName").getValue(String.class).toString();
+                                    //usernameTextView.setText("Welcome "+user_firstname+"!");
                                     remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
                                     Log.d("remainingsaldo",remainingSaldo+"");
                                     saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
                                     session.createLoginUID(user.getUid());
                                 }else if(session.getLoginOption()==1){
-                                    user_email = "gaby3@gmail.com";
+                                    //user_email = "gaby3@gmail.com";
                                     session.createLoginUID(user.getUid());
-                                    usernameTextView.setText("Welcome "+"dummyfb"+"!");
-                                    //remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(String.class).toString();
-                                    //saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
+                                    //usernameTextView.setText("Welcome "+"dummyfb"+"!");
+                                    remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
+                                    saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
                                 }else if(session.getLoginOption()==2){
-                                    user_email = "gaby3@gmail.com";
+                                    //user_email = "gaby3@gmail.com";
                                     session.createLoginUID(user.getUid());
-                                    usernameTextView.setText("Welcome "+"dummygoogle"+"!");
+                                    //usernameTextView.setText("Welcome "+"dummygoogle"+"!");
                                     //remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(String.class).toString();
                                     //saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
                                     //mGoogleApiClient = getApiClient();
                                 }
+
                         }
                         @Override
                         public void onCancelled(DatabaseError firebaseError) {
@@ -133,7 +149,6 @@ public class ShowOptionActivity extends Activity {
 
        // mDropOffPointButton = (Button) findViewById(R.id.dropoff_button);
         //mLogoutButton = (Button)findViewById(R.id.logout);
-
         mHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,18 +198,68 @@ public class ShowOptionActivity extends Activity {
     }
 
     public void initializeCalendar(){
-        calendarView = (CalendarView)findViewById(R.id.calendarview);
-        calendarView.setShowWeekNumber(false);
+        //calendarView = (CalendarView)findViewById(R.id.calendarview);
+        calendarViewMaterial = (MaterialCalendarView) findViewById(R.id.calendarView);
+        final ArrayList<CalendarDay> list = new ArrayList<CalendarDay>();
+
+        mDatabase.child("laundryOrders").orderByChild("username_id").equalTo(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String orderDate;
+                    String delims = "[/]";
+                    int year, month, date;
+                    orderDate = postSnapshot.child("takenDate").getValue(String.class).toString();
+                    Log.d("orderdate",orderDate);
+                    String[] tokens = orderDate.split(delims);
+                    year = Integer.parseInt(tokens[0]);
+                    month = Integer.parseInt(tokens[1])-1;
+                    date = Integer.parseInt(tokens[2]);
+                    Log.d("yearmonthdate",year+month+date+"");
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(year,month,date);
+                    CalendarDay calendarDay =CalendarDay.from(cal);
+                    list.add(calendarDay);
+                    System.out.println(list.get(0));
+                    Log.d("listofcal",list.toString());
+                    calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
+                }
+                try{
+
+                }catch (Exception e){
+
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+//        Calendar cal1 = Calendar.getInstance();
+//        cal1.set(2016, 7, 10);
+//        CalendarDay calendarDay = CalendarDay.from(cal1);
+//        list.add(calendarDay);
+//        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
+
+//        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
+//        Calendar cal2 = Calendar.getInstance();
+//        cal2.set(2016, 7, 1);
+//        CalendarDay calendarDay2 = CalendarDay.from(cal2);
+//        list.add(calendarDay2);
+//
+//
+//        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
+        //calendarView.setShowWeekNumber(false);
         // here we set Monday as the first day of the Calendar
-        calendarView.setFirstDayOfWeek(2);
+        //calendarView.setFirstDayOfWeek(2);
         //The background color for the selected week.
-        calendarView.setSelectedWeekBackgroundColor(getResources().getColor(R.color.landingpage_background));
-        calendarView.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
-
-
+        //calendarView.setSelectedWeekBackgroundColor(getResources().getColor(R.color.landingpage_background));
+        //calendarView.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
     }
+
     public void viewOrderHistory() {
-        intentHistory.putExtra("user_email", user_email);
+        //intentHistory.putExtra("user_email", user_email);
         startActivity(intentHistory);
     }
 
@@ -268,5 +333,27 @@ public class ShowOptionActivity extends Activity {
         }
         return "";
     }
+    class OrderDecorator implements DayViewDecorator {
+        private int mColor;
+        private HashSet<CalendarDay> mCalendarDayCollection;
 
+        public OrderDecorator(int color, Collection<CalendarDay> dates) {
+            mColor = color;
+            mCalendarDayCollection = new HashSet<>(dates);
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return mCalendarDayCollection.contains(day);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            //view.addSpan(new DotSpan(5, mColor));
+            //view.addSpan(new ForegroundColorSpan(mColor));
+            //view.addSpan(new BackgroundColorSpan(Color.BLUE));
+            view.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.calendar_circle_decorator));
+
+        }
+    }
 }

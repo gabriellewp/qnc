@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "524433074187-sl4u5lkbem534v8a43pr3fb1jpmhdvrq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gabrielle.laundryonline",
+            "certificate_hash": "8B8B28C99B8C3F8B4B823E476FFAB3CC84856AF3"
+          }
+        },
+        {
           "client_id": "524433074187-o8ukc1364h80m8m0e7jhvdqe8ocao6rs.apps.googleusercontent.com",
           "client_type": 3
         }

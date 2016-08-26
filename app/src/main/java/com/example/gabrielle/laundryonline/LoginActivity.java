@@ -57,6 +57,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.facebook.FacebookSdk;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     //private DBHandler dbHandler;
@@ -80,8 +85,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
     private FirebaseUser user;
-    private User userClass;
-
+    private List<User> arrOfUser= new ArrayList<>();
+    private Calendar calendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         session = new SessionManager(getApplicationContext());
         AppEventsLogger.activateApp(this);
         intentFromLandingPage = getIntent();
-
+        calendar = Calendar.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseLogin = false;
@@ -103,6 +108,37 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    Log.d("usersignin","preparecreatenweacc");
+                    mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d("lgoinwithfb","test1");
+                            if(!dataSnapshot.exists()){ //login with fb
+                                Log.d("nochildwithfacebookid","'");
+                                User newUser = new User();
+                                newUser.setUsername_ID(user.getUid());
+                                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                                String formattedDate = df.format(calendar.getTime());
+                                newUser.setJoinDate(formattedDate);
+                                //newUser.setEmail(user.getEmail());
+
+                                mDatabase.child("users").child(user.getUid()).setValue(newUser);
+                                try{
+                                    Thread.sleep(7000);
+                                }catch(Exception e) {
+
+                                }
+                            }else{
+                                Log.d("childwiththisfacebookid","");
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     Log.d("authstatelistener" ,"onAuthStateChanged:signed_in:" + user.getUid());
                     mDatabase.child("users").child(user.getUid()).addValueEventListener((new ValueEventListener() {
                         @Override
@@ -204,10 +240,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onSuccess(LoginResult loginResult) {
                         // App code
                         Log.d("facebookatemptlogin","success");
-                        Log.d("loginresultuserid",loginResult.getAccessToken().getUserId());
-                        Log.d("loginresulttoken",loginResult.getAccessToken().getToken());
                         session.createLoginOption(1);
+
                         handleFacebookAccessToken(loginResult.getAccessToken());
+
                     }
 
                     @Override
@@ -232,14 +268,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         //google sign_in
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("524433074187-o8ukc1364h80m8m0e7jhvdqe8ocao6rs.apps.googleusercontent.com")
+                .requestIdToken(LoginActivity.this.getResources().getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 //
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addScope(gso.getScopeArray()[0])
+                        .addScope(gso.getScopeArray()[1])
+                        .addScope(gso.getScopeArray()[2])
+                .build();
         SignInButton googleLoginButton = (SignInButton) findViewById(R.id.google_sign_in_button);
         ImageButton googlesigninIB = (ImageButton)findViewById(R.id.googlesignin);
         Log.d("scopearray",gso.getScopeArray().length+"");
@@ -247,24 +286,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View view) {
                 Log.d("googlelogin","test1");
-                if(mGoogleApiClient!=null){
-                    Log.d("googlelogin","test2");
-                    mGoogleApiClient.disconnect();
-                }
-                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
-                        .enableAutoManage(LoginActivity.this /* FragmentActivity */, LoginActivity.this /* OnConnectionFailedListener */)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .addScope(gso.getScopeArray()[0])
-                        .addScope(gso.getScopeArray()[1])
-                        .addScope(gso.getScopeArray()[2])
-                        .build();
+//                if(mGoogleApiClient!=null){
+//                    Log.d("googlelogin","test2");
+//                    mGoogleApiClient.disconnect();
+//                }
 //                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
-//
-//                        .addOnConnectionFailedListener(LoginActivity.this)
+//                        .enableAutoManage(LoginActivity.this, LoginActivity.this)
+//                        .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+//                        // .addApi(Plus.API, null)
+//                        .addConnectionCallbacks(this)
+//                        .addOnConnectionFailedListener(this)
+//                        // .addScope(Plus.SCOPE_PLUS_LOGIN)
+//                        .build();
+//                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
+//                        .enableAutoManage(LoginActivity.this /* FragmentActivity */, LoginActivity.this /* OnConnectionFailedListener */)
 //                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
 //                        .addScope(gso.getScopeArray()[0])
 //                        .addScope(gso.getScopeArray()[1])
 //                        .addScope(gso.getScopeArray()[2])
+//                        .build();
+//                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
+//                        .addOnConnectionFailedListener(LoginActivity.this)
+//                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                        .addScope(gso.getScopeArray()[0])
+//                        .addScope(gso.getScopeArray()[1])
 //                        .build();
                 //mGoogleApiClient.connect();
 
