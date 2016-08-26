@@ -68,8 +68,6 @@ public class ShowOptionActivity extends Activity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_show_option);
-
-        //usernameTextView = (TextView) findViewById(R.id.username_textview);
         dayTextView = (TextView)findViewById(R.id.dayNextOrderCalendar);
         dateTextView = (TextView)findViewById(R.id.dateNextOrderCalendar);
         monthyearTextView = (TextView) findViewById(R.id.monthYearNextOrderCalendar);
@@ -81,7 +79,6 @@ public class ShowOptionActivity extends Activity {
         mAccountSettings = (Button) findViewById(R.id.settings);
         calendar = Calendar.getInstance();
         session= new SessionManager(getApplicationContext());
-        //FirebaseUser user = firebaseAuth.getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -110,26 +107,19 @@ public class ShowOptionActivity extends Activity {
                             initializeCalendar();
                                 if(session.getLoginOption()==0){
                                     Log.d("getloginoption",0+"");
-                                    //user_email = snapshot.child("users").child(user.getUid()).child("email").getValue(String.class).toString();
                                     //user_firstname = snapshot.child("users").child(user.getUid()).child("firstName").getValue(String.class).toString();
-                                    //usernameTextView.setText("Welcome "+user_firstname+"!");
                                     remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
                                     Log.d("remainingsaldo",remainingSaldo+"");
                                     saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
                                     session.createLoginUID(user.getUid());
                                 }else if(session.getLoginOption()==1){
-                                    //user_email = "gaby3@gmail.com";
                                     session.createLoginUID(user.getUid());
-                                    //usernameTextView.setText("Welcome "+"dummyfb"+"!");
                                     remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
                                     saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
                                 }else if(session.getLoginOption()==2){
-                                    //user_email = "gaby3@gmail.com";
                                     session.createLoginUID(user.getUid());
-                                    //usernameTextView.setText("Welcome "+"dummygoogle"+"!");
-                                    //remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(String.class).toString();
-                                    //saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
-                                    //mGoogleApiClient = getApiClient();
+                                    remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
+                                    saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
                                 }
 
                         }
@@ -167,14 +157,7 @@ public class ShowOptionActivity extends Activity {
                 startActivity(intentAccountSettings);
             }
         });
-        /*COMMENTING DROPOFFPOINT CODE*/
-//        mDropOffPointButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dropOffPointOrder();
-//            }
-//        });
-        /*COMMENTING LOGOUT CODE*/
+
 
         intentHistory = new Intent(this, OrderHistoryActivity.class);
         intentAddOrder = new Intent(this, ShowAllAddressActivity.class);
@@ -236,27 +219,7 @@ public class ShowOptionActivity extends Activity {
 
             }
         });
-//        Calendar cal1 = Calendar.getInstance();
-//        cal1.set(2016, 7, 10);
-//        CalendarDay calendarDay = CalendarDay.from(cal1);
-//        list.add(calendarDay);
-//        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
-
-//        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
-//        Calendar cal2 = Calendar.getInstance();
-//        cal2.set(2016, 7, 1);
-//        CalendarDay calendarDay2 = CalendarDay.from(cal2);
-//        list.add(calendarDay2);
-//
-//
-//        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
-        //calendarView.setShowWeekNumber(false);
-        // here we set Monday as the first day of the Calendar
-        //calendarView.setFirstDayOfWeek(2);
-        //The background color for the selected week.
-        //calendarView.setSelectedWeekBackgroundColor(getResources().getColor(R.color.landingpage_background));
-        //calendarView.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
-    }
+   }
 
     public void viewOrderHistory() {
         //intentHistory.putExtra("user_email", user_email);
@@ -349,9 +312,6 @@ public class ShowOptionActivity extends Activity {
 
         @Override
         public void decorate(DayViewFacade view) {
-            //view.addSpan(new DotSpan(5, mColor));
-            //view.addSpan(new ForegroundColorSpan(mColor));
-            //view.addSpan(new BackgroundColorSpan(Color.BLUE));
             view.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.calendar_circle_decorator));
 
         }

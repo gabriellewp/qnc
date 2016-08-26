@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Log.d("lgoinwithfb","test1");
                             if(!dataSnapshot.exists()){ //login with fb
-                                Log.d("nochildwithfacebookid","'");
+                                Log.d("nochildwithfacebookid",user.getUid());
                                 User newUser = new User();
                                 newUser.setUsername_ID(user.getUid());
                                 SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
