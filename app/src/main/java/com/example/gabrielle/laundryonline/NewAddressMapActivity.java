@@ -67,6 +67,7 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
     private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
+    private Intent intentShowAllAddress;
     //place.getName()+ place.getId()+place.getAddress()+ place.getPhoneNumber()+ place.getWebsiteUri()+String.valueOf(place.getLatLng().latitude)+String.valueOf(place.getLatLng().longitude)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
         autocompleteFragment.setOnPlaceSelectedListener(this);
 
         progressBarLayout = (LinearLayout)findViewById(R.id.new_address_progress_layout);
+        intentShowAllAddress = new Intent(this,ShowAllAddressActivity.class);
     }
 
     @Override
@@ -366,9 +368,10 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
                 },
                 5000
         );
+
+        startActivity(intentShowAllAddress);
         progressBarLayout.setVisibility(View.GONE);
         //showProgress(false);
-
     }
 
 //    public class UserCreateNewAddress extends AsyncTask<Void, Void, Boolean>{

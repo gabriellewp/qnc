@@ -73,13 +73,13 @@ public class LandingPageActivity extends AppCompatActivity{
                 viewPager.setCurrentItem(currentPage++, true);
             }
         };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
+//        Timer swipeTimer = new Timer();
+//        swipeTimer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, 3000, 3000);
         //dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         myImagePageAdapter = new ImagePagerAdapter(this);
         viewPager.setAdapter(myImagePageAdapter);

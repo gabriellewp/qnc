@@ -1,8 +1,13 @@
 package com.example.gabrielle.laundryonline;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -140,7 +146,31 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
                 },
                 5000
         );
-
+        Calendar calendaralarm = Calendar.getInstance();
+        Log.d("calm",calendaralarm.get(Calendar.YEAR)+"/"+calendaralarm.get(Calendar.MONTH)+"/"+calendaralarm.get(Calendar.DATE)+"/"+calendaralarm.get(Calendar.HOUR)+"/"+calendaralarm.get(Calendar.MINUTE)+"/"+calendaralarm.get(Calendar.SECOND));
+        Log.d("calm2",calendaralarm.get(Calendar.HOUR_OF_DAY)+"");
+        //sevendayalarm.add(Calendar.DATE, 7);
+        calendaralarm.set(calendaralarm.get(Calendar.YEAR),calendaralarm.get(Calendar.MONTH),calendaralarm.get(Calendar.DATE),calendaralarm.get(Calendar.HOUR),calendaralarm.get(Calendar.MINUTE)+2,calendaralarm.get(Calendar.SECOND));
+//        calendaralarm.set(Calendar.HOUR_OF_DAY, 00);
+//        calendaralarm.set(Calendar.MINUTE, 1);
+//        calendaralarm.set(Calendar.SECOND, 00);
+        long when  = calendaralarm.getTimeInMillis();
+        Intent intent = new Intent(this, LandingPageActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Jadwal Penjemputan")
+                .setContentText("Bentar lagi dijemput nih laundry")
+                .setContentIntent(pi)
+                .setWhen(when);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, mBuilder.build());
+//
+//        Intent intent = new Intent(this, Receiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+         Log.d("timemilist",calendaralarm.getTimeInMillis()+"::"+calendaralarm.getTime());
+//        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+//        am.set(AlarmManager.RTC_WAKEUP, calendaralarm.getTimeInMillis(), pendingIntent);
         progressBar.setVisibility(View.GONE);
         showDialog();
     }

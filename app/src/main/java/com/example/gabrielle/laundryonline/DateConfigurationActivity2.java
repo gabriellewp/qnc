@@ -102,7 +102,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
             public void onClick(View view, int position) {
                 CustomDate cd = dates.get(position);
                 schedule1Date = cd.getDay()+","+cd.getDate()+" "+cd.getMonth();
-                scheduleDate1FDStr = cd.getYear()+"/"+cd.getMonth()+"/"+cd.getDate();
+                scheduleDate1FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate();
 //                for(int i =0; i<dates.size();i++){
 //                    Log.d("i",i+"");
 //                    Log.d("calendaradapter1concc",myCalendarAdapter1.container.getChildCount()+"yyy");
@@ -168,7 +168,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
             public void onClick(View view, int position) {
                 CustomDate cd = dates.get(position);
                 schedule2Date = cd.getDay()+","+cd.getDate()+" "+cd.getMonth();
-                scheduleDate2FDStr = cd.getYear()+"/"+cd.getMonth()+"/"+cd.getDate();
+                scheduleDate2FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate();
                 //view.setBackgroundColor(Color.GREEN);
                 //Toast.makeText(getApplicationContext(),lo.getTakenDate(),Toast.LENGTH_SHORT).show();
                 //showDialog();
@@ -337,7 +337,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
             date.setDay(getDay(calendar.get(Calendar.DAY_OF_WEEK)));
             date.setYear("" + calendar.get(Calendar.YEAR));
             date.setMonth("" + getMonth(calendar.get(Calendar.MONTH)));
-
+            date.setMonthDigit(calendar.get(Calendar.MONTH)+1);
 //            date.setFormattedDate(calendar.get(Calendar.YEAR) + "-"
 //                    + (calendar.get(Calendar.MONTH) + 1) + "-"
 //                    + calendar.get(Calendar.DATE));

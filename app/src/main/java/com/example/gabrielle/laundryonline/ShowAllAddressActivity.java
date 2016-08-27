@@ -226,7 +226,7 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d("gotomdatabasevaluelist","");
                 //Log.d("orderhistoryobject",snapshot.child("laundryOrders").getValue().toString());
-                Log.d("showalladdrsnap",snapshot.getValue().toString());
+                //Log.d("showalladdrsnap",snapshot.getValue().toString());
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Log.d("showalladdrsnap",postSnapshot.getValue().toString());
                     UserAddressDetails uad = postSnapshot.getValue(UserAddressDetails.class);

@@ -116,10 +116,13 @@ public class ShowOptionActivity extends Activity {
                                     session.createLoginUID(user.getUid());
                                     remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
                                     saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
+                                    session.createLoginUID(user.getUid());
                                 }else if(session.getLoginOption()==2){
                                     session.createLoginUID(user.getUid());
                                     remainingSaldo = snapshot.child("users").child(user.getUid()).child("remainingSaldo").getValue(Integer.class).intValue();
+                                    Log.d("remainingSaldogsi",remainingSaldo+"");
                                     saldoRemainingTextView.setText("JUMLAH SALDO \r\n RP."+remainingSaldo);
+                                    session.createLoginUID(user.getUid());
                                 }
 
                         }
@@ -201,6 +204,7 @@ public class ShowOptionActivity extends Activity {
                     Log.d("yearmonthdate",year+month+date+"");
                     Calendar cal = Calendar.getInstance();
                     cal.set(year,month,date);
+
                     CalendarDay calendarDay =CalendarDay.from(cal);
                     list.add(calendarDay);
                     System.out.println(list.get(0));
