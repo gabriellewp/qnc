@@ -67,10 +67,6 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
        // Log.v("HashMapTest", hashMap.get("key")); //label,address,detail
         getDates();
         getHours();
-        schedule1Hour = "";
-        schedule1Date= "";
-        schedule2Hour = "";
-        schedule2Date = "";
         positionCalendar1 = 0; positionHour1 = 0; positionCalendar2 = 0; positionHour2 = 0;
         rvCalendar1 = (RecyclerView) findViewById(R.id.pager);
         rvHour1 = (RecyclerView) findViewById(R.id.pagerhour1);

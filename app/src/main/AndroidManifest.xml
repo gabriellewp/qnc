@@ -23,7 +23,9 @@
     <!--<service android:name=".Receiver" android:enabled="true">-->
         <!--<intent-filter> <action android:name="NOTIFICATION_SERVICE" /></intent-filter>-->
     <!--</service>-->
-    <receiver android:name=".Receiver" android:enabled="true" />
+
+    <!--<receiver android:name=".Receiver" android:enabled="true" />-->
+
     <application
         android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -54,6 +56,7 @@
                 <data android:scheme="@string/facebook_app_id" />
             </intent-filter>
         </activity>
+        <receiver android:name=".Receiver"  />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ShowOptionActivity" />
         <activity android:name=".CreateNewAccountActivity" />

@@ -41,7 +41,8 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
     private SessionManager session;
     private DatabaseReference mDatabase;
     private View progressBar;
-    private String dateTime1Str,dateTime2Str;
+    private String dateTime1Str,dateTime2Str, hour1, hour2;
+    private int year1,month1,date1,year2,month2,date2,uniqueID;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -81,13 +82,23 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         labelTV.setText(hashMap.get("label"));
         completeTV.setText(hashMap.get("address"));
         detailTV.setText(hashMap.get("detail"));
+        hour1 = intentDateActivity.getStringExtra("hour1");
+        hour2 =  intentDateActivity.getStringExtra("hour2");
         date1TV.setText(intentDateActivity.getStringExtra("date1"));
-        jam1TV.setText(intentDateActivity.getStringExtra("hour1"));
+        jam1TV.setText(hour1);
         date2TV.setText(intentDateActivity.getStringExtra("date2"));
-        jam2TV.setText(intentDateActivity.getStringExtra("hour2"));
+        jam2TV.setText(hour2);
         dateTime1Str = intentDateActivity.getStringExtra("dateTime1");
         dateTime2Str = intentDateActivity.getStringExtra("dateTime2");
-
+        String delims = "[/]";
+        String[] tokens = dateTime1Str.split(delims);
+        year1 = Integer.parseInt(tokens[0]);
+        month1 = Integer.parseInt(tokens[1])-1;
+        date1 = Integer.parseInt(tokens[2]);
+        tokens = dateTime2Str.split(delims);
+        year2 = Integer.parseInt(tokens[0]);
+        month2 = Integer.parseInt(tokens[1])-1;
+        date2 = Integer.parseInt(tokens[2]);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Log.d("confirmschedule","test2");
     }
@@ -114,9 +125,9 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         lo1.setPaymentStatus(1);
         lo1.setPrice(5000);
         lo1.setReturnDate(dateTime1Str);
-        lo1.setReturnTime(Integer.parseInt(intentDateActivity.getStringExtra("hour2")));
+        lo1.setReturnTime(Integer.parseInt(hour1));
         lo1.setTakenDate(dateTime1Str);
-        lo1.setTakenTime(Integer.parseInt(intentDateActivity.getStringExtra("hour1")));
+        lo1.setTakenTime(Integer.parseInt(hour1));
         lo1.setUsername_id(session.getUidPreferences());
         lo1.setWeight(10);
 
@@ -129,9 +140,9 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         lo2.setPaymentStatus(1);
         lo2.setPrice(7000);
         lo2.setReturnDate(dateTime2Str);
-        lo2.setReturnTime(Integer.parseInt(intentDateActivity.getStringExtra("hour2")));
+        lo2.setReturnTime(Integer.parseInt(hour2));
         lo2.setTakenDate(dateTime2Str);
-        lo2.setTakenTime(Integer.parseInt(intentDateActivity.getStringExtra("hour1")));
+        lo2.setTakenTime(Integer.parseInt(hour2));
         lo2.setUsername_id(session.getUidPreferences());
         lo2.setWeight(11);
 
@@ -147,30 +158,25 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
                 5000
         );
         Calendar calendaralarm = Calendar.getInstance();
-        Log.d("calm",calendaralarm.get(Calendar.YEAR)+"/"+calendaralarm.get(Calendar.MONTH)+"/"+calendaralarm.get(Calendar.DATE)+"/"+calendaralarm.get(Calendar.HOUR)+"/"+calendaralarm.get(Calendar.MINUTE)+"/"+calendaralarm.get(Calendar.SECOND));
-        Log.d("calm2",calendaralarm.get(Calendar.HOUR_OF_DAY)+"");
-        //sevendayalarm.add(Calendar.DATE, 7);
-        calendaralarm.set(calendaralarm.get(Calendar.YEAR),calendaralarm.get(Calendar.MONTH),calendaralarm.get(Calendar.DATE),calendaralarm.get(Calendar.HOUR),calendaralarm.get(Calendar.MINUTE)+2,calendaralarm.get(Calendar.SECOND));
-//        calendaralarm.set(Calendar.HOUR_OF_DAY, 00);
-//        calendaralarm.set(Calendar.MINUTE, 1);
-//        calendaralarm.set(Calendar.SECOND, 00);
+
+        calendaralarm.set(year1,month1,date1,Integer.parseInt(hour1),0,0);
+        Log.d("calendaralarmdate",calendaralarm.getTime()+"");
         long when  = calendaralarm.getTimeInMillis();
-        Intent intent = new Intent(this, LandingPageActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Jadwal Penjemputan")
-                .setContentText("Bentar lagi dijemput nih laundry")
-                .setContentIntent(pi)
-                .setWhen(when);
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, mBuilder.build());
-//
-//        Intent intent = new Intent(this, Receiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
-         Log.d("timemilist",calendaralarm.getTimeInMillis()+"::"+calendaralarm.getTime());
-//        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-//        am.set(AlarmManager.RTC_WAKEUP, calendaralarm.getTimeInMillis(), pendingIntent);
+        Intent myIntent = new Intent(this , Receiver.class);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        uniqueID = (int)when;
+        PendingIntent pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC, when, pi);
+
+        calendaralarm.set(year2,month2,date2,Integer.parseInt(hour2),0,0);
+        Log.d("calendaralarmdate",calendaralarm.getTime()+"");
+        when  = calendaralarm.getTimeInMillis();
+        myIntent = new Intent(this , Receiver.class);
+        alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        uniqueID = (int)when;
+        pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC, when, pi);
+
         progressBar.setVisibility(View.GONE);
         showDialog();
     }
