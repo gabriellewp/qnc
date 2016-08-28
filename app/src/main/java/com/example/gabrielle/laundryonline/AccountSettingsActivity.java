@@ -34,18 +34,6 @@ public class AccountSettingsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Button logoutButton = (Button) findViewById(R.id.logoutButton);
 
-        mAuth.sendPasswordResetEmail("gabybongbong@gmail.com").addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,4 +46,5 @@ public class AccountSettingsActivity extends AppCompatActivity {
             }
         });
     }
+
 }

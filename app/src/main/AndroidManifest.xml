@@ -57,6 +57,7 @@
             </intent-filter>
         </activity>
         <receiver android:name=".Receiver"  />
+        <receiver android:name=".AutoLogout"  />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ShowOptionActivity" />
         <activity android:name=".CreateNewAccountActivity" />

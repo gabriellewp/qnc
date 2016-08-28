@@ -40,35 +40,5 @@ public class Receiver extends BroadcastReceiver {
 //        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 //        manager.notify(NOTIF_ID, mBuilder.build());
     }
-//    @Override
-//    public IBinder onBind(Intent arg0)
-//    {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        //Log.i(TAG, "Received start id " + startId + ": " + intent);
-//        //Log.e(TAG, "call me redundant BABY!  onStartCommand service");
-//        // this service is NOT supposed to execute anything when it is called
-//        // because it may be called inumerous times in repetition
-//        // all of its action is in the onCreate - so as to force it to happen ONLY once
-//        return 1;
-//    }
-//    @Override
-//    public void onCreate()
-//    {
-//        // TODO Auto-generated method stub
-//        super.onCreate();
-//
-//        Intent intent = new Intent(this, LandingPageActivity.class);
-//        PendingIntent pi = PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setContentTitle("Jadwal Penjemputan")
-//                .setContentText("Bentar lagi dijemput nih laundry")
-//                .setContentIntent(pi);
-//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        manager.notify(0, mBuilder.build());
-//    }
+
 }

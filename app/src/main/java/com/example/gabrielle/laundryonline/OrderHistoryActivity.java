@@ -78,15 +78,17 @@ public class OrderHistoryActivity extends AppCompatActivity{
         //mAuth.signOut();
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mProgressView = findViewById(R.id.login_progress);
+        mProgressView = findViewById(R.id.showOrderProgress);
         mUIView = findViewById(R.id.ui);
         rvpast = (RecyclerView)findViewById(R.id.rvpast);
         rvpresent = (RecyclerView)findViewById(R.id.rvpresent);
         rvfuture = (RecyclerView)findViewById(R.id.rvfuture);
 
-        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
         calendar = Calendar.getInstance();
-        datenow = calendar.getTime();
+        datenow= calendar.getTime();
+
+
         MyAsyncTask myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute();
 
@@ -177,8 +179,8 @@ public class OrderHistoryActivity extends AppCompatActivity{
                 startActivity(intentToDetailOrder);
             }
 
-            @Override
-            public void onLongClick(View view, int position) {
+                                    @Override
+                                            public void onLongClick(View view, int position) {
 
             }
         }));
@@ -239,20 +241,17 @@ public class OrderHistoryActivity extends AppCompatActivity{
                     LaundryOrder lo = postSnapshot.getValue(LaundryOrder.class);
                     lo.setOrderID(postSnapshot.getKey());
                     laundryOrderDate = lo.getTakenDate();
-//                    orderListFuture.add(lo);
-//                    orderListFuture.add(lo);
-//                    orderListFuture.add(lo);
-//                    orderListPast.add(lo);
-//                    orderListPast.add(lo);
-//                    orderListPresent.add(lo);
-//                    orderListPresent.add(lo);
+
                     try{
                         dateLaundryOrder = dateFormat.parse(laundryOrderDate);
                         if(dateLaundryOrder.after(datenow)){
+                            Log.d("addfuture","test1");
                             orderListFuture.add(lo);
                         }else if(dateLaundryOrder.equals(datenow)){
+                            Log.d("addpresent","test2");
                             orderListPresent.add(lo);
                         }else if(dateLaundryOrder.before(datenow)){
+                            Log.d("addpast","test3");
                             orderListPast.add(lo);
                         }
                     }catch (Exception e){
@@ -263,23 +262,7 @@ public class OrderHistoryActivity extends AppCompatActivity{
                     Log.d("idoflaundryorder",postSnapshot.getKey());
 
                 }
-                //Getting the data from snapshot
-                //User currUser = snapshot.child("users").getValue(User.class);
-                // Log.d("snapshot",snapshot.getValue().toString());
-                // Log.d("snapshot",snapshot.child("users").getValue().toString());
-                // Log.d("snapshot",snapshot.child("users").child(user.getUid()).getValue().toString());
-                //user_firstname = snapshot.child("users").child(user.getUid()).child("firstName").getValue(String.class).toString();
-                // Log.d("userfirstname",user_firstname);
-                // User currUser = snapshot.child("users").child(user.getUid()).getValue(User.class);
-                // Log.d("userfirstname",currUser.getFirstName());
-                //usernameTextView.setText("Welcome "+user_firstname+"!");
-                //Adding it to a string
-                //user_firstname = currUser.getFirstName();
-                //Log.d("usershowoption","usersigninname"+user_firstname);
 
-                //Displaying it on textview
-                // textViewPersons.setText(string);
-                //}
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
@@ -381,6 +364,7 @@ public class OrderHistoryActivity extends AppCompatActivity{
             // TODO Auto-generated method stub
             super.onPostExecute(result);
             if(result==1){
+                setLayout();
                 Log.d("resultgetorderdata","1");
                 if(orderListPast.size()==0&&orderListPresent.size()==0&&orderListFuture.size()==0){
                     Log.d("nohistoryatall","'");
@@ -388,7 +372,7 @@ public class OrderHistoryActivity extends AppCompatActivity{
                     //warningLayout.setVisibility(View.VISIBLE);
                 }else{
                     Log.d("setlayout","anyhistory");
-                    setLayout();
+
                 }
             }
 

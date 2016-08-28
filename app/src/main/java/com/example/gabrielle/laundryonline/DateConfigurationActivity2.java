@@ -98,7 +98,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
             public void onClick(View view, int position) {
                 CustomDate cd = dates.get(position);
                 schedule1Date = cd.getDay()+","+cd.getDate()+" "+cd.getMonth();
-                scheduleDate1FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate();
+                scheduleDate1FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate()+" ";
 //                for(int i =0; i<dates.size();i++){
 //                    Log.d("i",i+"");
 //                    Log.d("calendaradapter1concc",myCalendarAdapter1.container.getChildCount()+"yyy");
@@ -164,7 +164,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
             public void onClick(View view, int position) {
                 CustomDate cd = dates.get(position);
                 schedule2Date = cd.getDay()+","+cd.getDate()+" "+cd.getMonth();
-                scheduleDate2FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate();
+                scheduleDate2FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate()+" ";
                 //view.setBackgroundColor(Color.GREEN);
                 //Toast.makeText(getApplicationContext(),lo.getTakenDate(),Toast.LENGTH_SHORT).show();
                 //showDialog();
@@ -185,7 +185,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
             public void onClick(View view, int position) {
                 int hour = hours.get(position);
                 schedule2Hour = ",JAM "+hour+":00-"+(hour+1)+":00";
-                schedule2TextView.setText(schedule1Date+schedule1Hour);
+                schedule2TextView.setText(schedule2Date+schedule2Hour);
                 schedule2Hour = String.valueOf(hour);
 
             }
@@ -312,7 +312,9 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
                 intentConfirmSchedule.putExtra("hour1",schedule1Hour);
                 intentConfirmSchedule.putExtra("date2", schedule2Date);
                 intentConfirmSchedule.putExtra("hour2",schedule2Hour);
+                scheduleDate1FDStr = scheduleDate1FDStr+Integer.parseInt(schedule1Hour)+":00:00";
                 intentConfirmSchedule.putExtra("dateTime1",scheduleDate1FDStr);
+                scheduleDate2FDStr = scheduleDate2FDStr+Integer.parseInt(schedule2Hour)+":00:00";
                 intentConfirmSchedule.putExtra("dateTime2",scheduleDate2FDStr);
                 startActivity(intentConfirmSchedule);
                 //rvCalendar1.getLayoutManager().findscrollToPosition(linearLayoutManager.findLastVisibleItemPosition() + 1);

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical"
     tools:context=".ShowAllAddressActivity"
     >
 
@@ -55,6 +57,17 @@
         android:orientation="horizontal"
         android:background="@color/landingpage_background_2"
         >
+        <ImageButton
+            android:id="@+id/prev_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:src="@mipmap/ic_navigate_before_black_24dp"
+            android:background="@drawable/round_button_bg"
+            style="@style/Widget.AppCompat.Button.Colored"
+
+
+            />
         <ImageButton
             android:id="@+id/add_button"
             android:layout_width="50dp"

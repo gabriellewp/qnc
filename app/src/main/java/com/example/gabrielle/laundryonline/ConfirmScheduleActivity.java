@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,15 +91,6 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         jam2TV.setText(hour2);
         dateTime1Str = intentDateActivity.getStringExtra("dateTime1");
         dateTime2Str = intentDateActivity.getStringExtra("dateTime2");
-        String delims = "[/]";
-        String[] tokens = dateTime1Str.split(delims);
-        year1 = Integer.parseInt(tokens[0]);
-        month1 = Integer.parseInt(tokens[1])-1;
-        date1 = Integer.parseInt(tokens[2]);
-        tokens = dateTime2Str.split(delims);
-        year2 = Integer.parseInt(tokens[0]);
-        month2 = Integer.parseInt(tokens[1])-1;
-        date2 = Integer.parseInt(tokens[2]);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Log.d("confirmschedule","test2");
     }
@@ -158,24 +150,32 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
                 5000
         );
         Calendar calendaralarm = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        long when;
+        try{
+            calendaralarm.setTime(sdf.parse(dateTime1Str));// all done
+            //calendaralarm.set(year1,month1,date1,Integer.parseInt(hour1),0,0);
+            Log.d("calendaralarmdate1",calendaralarm.getTime()+"");
+            when  = calendaralarm.getTimeInMillis();
+            Intent myIntent = new Intent(this , Receiver.class);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            uniqueID = (int)when;
+            PendingIntent pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.set(AlarmManager.RTC, when, pi);
 
-        calendaralarm.set(year1,month1,date1,Integer.parseInt(hour1),0,0);
-        Log.d("calendaralarmdate",calendaralarm.getTime()+"");
-        long when  = calendaralarm.getTimeInMillis();
-        Intent myIntent = new Intent(this , Receiver.class);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        uniqueID = (int)when;
-        PendingIntent pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.RTC, when, pi);
+            calendaralarm.setTime(sdf.parse(dateTime1Str));// all done
+            Log.d("calendaralarmdate2",calendaralarm.getTime()+"");
+            when  = calendaralarm.getTimeInMillis();
+            myIntent = new Intent(this , Receiver.class);
+            alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            uniqueID = (int)when;
+            pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.set(AlarmManager.RTC, when, pi);
 
-        calendaralarm.set(year2,month2,date2,Integer.parseInt(hour2),0,0);
+        }catch (Exception e){}
+
+
         Log.d("calendaralarmdate",calendaralarm.getTime()+"");
-        when  = calendaralarm.getTimeInMillis();
-        myIntent = new Intent(this , Receiver.class);
-        alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        uniqueID = (int)when;
-        pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.RTC, when, pi);
 
         progressBar.setVisibility(View.GONE);
         showDialog();

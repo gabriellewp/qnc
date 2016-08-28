@@ -3,6 +3,8 @@ package com.example.gabrielle.laundryonline;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -113,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Log.d("lgoinwithfb","test1");
-                            if(!dataSnapshot.exists()){ //login with fb
+                            if(!dataSnapshot.exists()){ //login with fb and google
                                 Log.d("nochildwithfacebookid",user.getUid());
                                 User newUser = new User();
                                 newUser.setUsername_ID(user.getUid());
@@ -160,6 +162,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 startActivity(intentGetToken);
                             }else if(userSnapshot.getVerifiedTelNumber()==1){
                                 session.createLoginUID(user.getUid());
+                                //tambahin alarm manager untuk auto logout
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.add(Calendar.DATE, 5);
+                                long when = calendar.getTimeInMillis();
+                                Log.d("logoutday",calendar.getTime()+"");
+                                Intent myIntent = new Intent(LoginActivity.this , AutoLogout.class);
+                                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                                int uniqueID = (int)when;
+                                PendingIntent pi = PendingIntent.getBroadcast(LoginActivity.this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                alarmManager.set(AlarmManager.RTC, when, pi);
+
                                 showProgress(false);
                                 startActivity(intentShowOrderOption);
                             }
@@ -286,33 +299,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View view) {
                 Log.d("googlelogin","test1");
-//                if(mGoogleApiClient!=null){
-//                    Log.d("googlelogin","test2");
-//                    mGoogleApiClient.disconnect();
-//                }
-//                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
-//                        .enableAutoManage(LoginActivity.this, LoginActivity.this)
-//                        .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
-//                        // .addApi(Plus.API, null)
-//                        .addConnectionCallbacks(this)
-//                        .addOnConnectionFailedListener(this)
-//                        // .addScope(Plus.SCOPE_PLUS_LOGIN)
-//                        .build();
-//                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
-//                        .enableAutoManage(LoginActivity.this /* FragmentActivity */, LoginActivity.this /* OnConnectionFailedListener */)
-//                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                        .addScope(gso.getScopeArray()[0])
-//                        .addScope(gso.getScopeArray()[1])
-//                        .addScope(gso.getScopeArray()[2])
-//                        .build();
-//                mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
-//                        .addOnConnectionFailedListener(LoginActivity.this)
-//                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                        .addScope(gso.getScopeArray()[0])
-//                        .addScope(gso.getScopeArray()[1])
-//                        .build();
-                //mGoogleApiClient.connect();
-
                 session.createLoginOption(2);
                 googleSignIn();
             }
@@ -455,8 +441,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent backToLandingPage = new Intent(this,LandingPageActivity.class);
-        startActivity(backToLandingPage);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+        startActivity(intent);
+        finish();
+        System.exit(0);
     }
 
     @Override
@@ -586,4 +576,5 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 }
         });
         }
+
         }

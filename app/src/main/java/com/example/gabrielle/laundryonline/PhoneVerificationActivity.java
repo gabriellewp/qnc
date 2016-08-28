@@ -4,11 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -139,6 +141,20 @@ public class PhoneVerificationActivity extends AppCompatActivity {
         }
 
     }
+    public void showDialog(){
+        String text = "KONFIRMASI BERHASIL \r\n SELAMAT DATANG \r\n TERIMA KASIH TELAH BERGABUNG DENGAN QUICK N' CLEAN LAUNDRY. NIKMATI LAYANAN LAUNDRY BERLANGGAN PROFESIONAL DALAM" +
+                "GENGGAMAN TANGAN ANDA.";
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(text)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(intentShowOption);
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
     class MyAsyncTask extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
@@ -220,7 +236,8 @@ public class PhoneVerificationActivity extends AppCompatActivity {
                 if(intentStr.equals("intentfromcreateacc")){
                     session.createLoginUID(uid);
                 }
-                startActivity(intentShowOption);
+                showDialog();
+                //startActivity(intentShowOption);
             }else{
                 showProgress(false);
                 codeTextInput.setError("Wrong verification code");

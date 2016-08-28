@@ -30,12 +30,15 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by gabrielle on 5/28/2016.
@@ -193,18 +196,30 @@ public class ShowOptionActivity extends Activity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String orderDate;
+                    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
                     String delims = "[/]";
-                    int year, month, date;
+                    //int year, month, date;
                     orderDate = postSnapshot.child("takenDate").getValue(String.class).toString();
-                    Log.d("orderdate",orderDate);
-                    String[] tokens = orderDate.split(delims);
-                    year = Integer.parseInt(tokens[0]);
-                    month = Integer.parseInt(tokens[1])-1;
-                    date = Integer.parseInt(tokens[2]);
-                    Log.d("yearmonthdate",year+month+date+"");
+                    Date date;
                     Calendar cal = Calendar.getInstance();
-                    cal.set(year,month,date);
+                    try{
+                       date = df.parse(orderDate);
+                        Log.d("yearmonthdate",date.toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        cal.setTime(sdf.parse(orderDate));// all done
+                    }catch(Exception e){
 
+                    }
+
+//                    Log.d("orderdate",orderDate);
+//                    String[] tokens = orderDate.split(delims);
+//                    year = Integer.parseInt(tokens[0]);
+//                    month = Integer.parseInt(tokens[1])-1;
+//                    date = Integer.parseInt(tokens[2]);
+
+
+
+                    Log.d("calendar",cal.getTime()+"");
                     CalendarDay calendarDay =CalendarDay.from(cal);
                     list.add(calendarDay);
                     System.out.println(list.get(0));

@@ -95,8 +95,8 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
     private FirebaseAuth.AuthStateListener mAuthListener;
     private List<UserAddressDetails> addressList = new ArrayList<>();
     private SessionManager sessionMgr;
-    private Intent intentNewAddress, intentDateConfig;
-    private ImageButton addAddressButton,dateConfigButton;
+    private Intent intentNewAddress, intentDateConfig, intentShowOption;
+    private ImageButton addAddressButton,dateConfigButton, prevButton;
     private RecyclerView rv;
     private List<LatLng> arrOfLatLng= new ArrayList<>();
     private List<Marker> arrOfMarker= new ArrayList<>();
@@ -130,10 +130,18 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        intentShowOption = new Intent(this, ShowOptionActivity.class);
         intentNewAddress = new Intent(this, NewAddressMapActivity.class);
         intentDateConfig = new Intent(this,DateConfigurationActivity2.class);
+        prevButton = (ImageButton) findViewById(R.id.prev_button);
         addAddressButton = (ImageButton) findViewById(R.id.add_button);
         dateConfigButton = (ImageButton) findViewById(R.id.next_button);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentShowOption);
+            }
+        });
         addAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
