@@ -32,6 +32,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+            <ImageView android:id="@+id/loginlogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/logo_white"
+                android:background="@color/landingpage_background"
+                />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,7 +127,15 @@
                     android:textSize="18sp"/>
 
             </android.support.design.widget.TextInputLayout>
-
+            <TextView android:id="@+id/perjanjian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:textSize="10dp"
+                android:textColor="#FFFFFF"
+                android:textColorLink="#FFFF00"
+                />
             <Button
                 android:id="@+id/create_new_account_button"
                 android:layout_width="match_parent"

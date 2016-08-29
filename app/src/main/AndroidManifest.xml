@@ -72,6 +72,7 @@
         <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".ShowOrderDetailActivity" />
         <activity android:name=".ConfirmScheduleActivity" />
+        <activity android:name=".ShowAgreementActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

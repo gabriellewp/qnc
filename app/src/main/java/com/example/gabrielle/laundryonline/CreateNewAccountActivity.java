@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +19,20 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabrielle.laundryonline.db.User;
@@ -59,11 +67,7 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class CreateNewAccountActivity extends AppCompatActivity {
-    private EditText mEmailView;
-    private EditText mPasswordView;
-    private EditText mFrontNameView;
-    private EditText mFamilyNameView;
-    private EditText mTelephoneNumberView;
+    private EditText mEmailView,mPasswordView,mFrontNameView,mFamilyNameView,mTelephoneNumberView;
     private View mCreateAccountForm;
     private View mProgressView;
     private Button mNewAccountButton;
@@ -88,6 +92,7 @@ public class CreateNewAccountActivity extends AppCompatActivity {
     private MailSender ms;
     private Context _context;
     private boolean isUserSignIn;
+    private TextView perjanjianTV;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -114,8 +119,6 @@ public class CreateNewAccountActivity extends AppCompatActivity {
                     Log.d("authstatelistenercreate", "onAuthStateChanged:signed_out");
                     isUserSignIn = false;
                 }
-
-                // ...
             }
         };
 
@@ -125,6 +128,26 @@ public class CreateNewAccountActivity extends AppCompatActivity {
         mFrontNameView = (EditText) findViewById(R.id.newFrontName);
         mFamilyNameView = (EditText)findViewById(R.id.newFamilyName) ;
         mTelephoneNumberView = (EditText) findViewById(R.id.newTelephoneNumber);
+
+        SpannableString ss = new SpannableString("DENGAN MENYETUJUI, ANDA MENYETUJUI SYARAT & KETENTUAN SERTA  \r\n KEBIJAKAN PRIVASI YANG DITETAPKAN OLEH QNC LAUNDRY");
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                startActivity(new Intent(CreateNewAccountActivity.this, ShowAgreementActivity.class));
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        };
+        ss.setSpan(clickableSpan, 35, 81, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new UnderlineSpan(),35,81,0);
+        perjanjianTV = (TextView) findViewById(R.id.perjanjian);
+        perjanjianTV.setText(ss);
+        perjanjianTV.setMovementMethod(LinkMovementMethod.getInstance());
+        perjanjianTV.setHighlightColor(Color.TRANSPARENT);
+
         Button mNewAccountButton = (Button) findViewById(R.id.create_new_account_button);
         mNewAccountButton.setOnClickListener(new OnClickListener() {
             @Override

@@ -50,11 +50,12 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             />
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
+
         android:background="@color/landingpage_background_2"
         >
         <ImageButton
@@ -68,6 +69,11 @@
 
 
             />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
         <ImageButton
             android:id="@+id/add_button"
             android:layout_width="50dp"
@@ -78,7 +84,13 @@
             style="@style/Widget.AppCompat.Button.Colored"
 
 
+
             />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
         <ImageButton
             android:id="@+id/next_button"
             android:layout_width="50dp"
@@ -89,8 +101,9 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_alignParentRight="true"
 
+
             />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
 </LinearLayout>

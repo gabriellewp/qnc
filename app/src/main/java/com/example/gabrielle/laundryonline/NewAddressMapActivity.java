@@ -67,7 +67,7 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
     private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
-    private Intent intentShowAllAddress;
+    private Intent intentShowAllAddress, intentShowOption;
     //place.getName()+ place.getId()+place.getAddress()+ place.getPhoneNumber()+ place.getWebsiteUri()+String.valueOf(place.getLatLng().latitude)+String.valueOf(place.getLatLng().longitude)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +75,13 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
 
         setContentView(R.layout.activity_new_address_map);
         Intent intent = getIntent();
-        //addressTextViewNumber = intent.getIntExtra("addressnumber",0);
-        //email =  sessionMgr.getEmailPreferences();
+
         sessionMgr= new SessionManager(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         //google api init
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -91,7 +89,14 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
                 .addApi(LocationServices.API)
                 .build();
         buttonNext = (ImageButton)findViewById(R.id.next_button);
-
+        buttonPrev = (ImageButton) findViewById(R.id.prev_button);
+        intentShowOption =  new Intent(this, ShowOptionActivity.class);
+        buttonPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentShowOption);
+            }
+        });
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -306,71 +311,57 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
     }
 
     public void createAddress(){
-//        if(mCreateNewAddressTask!=null){
-//            return;
-//        }
-        //showProgress(true);
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    // User is signed i
-//                    Log.d("usershowoption","usersignin"+user.getUid());
-////                    User user1 = mDatabase.;
-////                    Log.d("usershowoption","usersigninname"+user_firstname);
-//                    mDatabase.addValueEventListener((new ValueEventListener() {
-//
-//                        @Override
-//                        public void onDataChange(DataSnapshot snapshot) {
-//                            Log.d("useruid",user.getUid());
-//
-//                        }
-//                        @Override
-//                        public void onCancelled(DatabaseError firebaseError) {
-//                            System.out.println("The read failed: " + firebaseError.getMessage());
-//                        }
-//                    }));
-//                } else {
-//                    // User is signed out
-//                    Log.d("authstatelistener1234" +
-//                            "", "onAuthStateChanged:signed_out");
-//                }
-//                // ...
-//            }
-//        };
 
+        View focusView = null;
+        addressOnMap.setError(null);
+        detailAddress.setError(null);
+        labelAddress.setError(null);
         placeAddress = addressOnMap.getText().toString();
         placeDetail = detailAddress.getText().toString();
         placeLabel = labelAddress.getText().toString();
+        if(placeAddress.length()==0){
+            progressBarLayout.setVisibility(View.GONE);
+            addressOnMap.setError("alamat tidak boleh kosong");
+            focusView = addressOnMap;
+        }else if(placeDetail.length()==0){
+            progressBarLayout.setVisibility(View.GONE);
+            detailAddress.setError("detail tidak boleh kosong");
+            focusView = detailAddress;
+        }else if(labelAddress.length()==0){
+            progressBarLayout.setVisibility(View.GONE);
+            labelAddress.setError("label tidak boleh kosong");
+            focusView = labelAddress;
+        }else{
+            Log.d("createaddress",sessionMgr.getUidPreferences());
+            progressBarLayout.setVisibility(View.VISIBLE);
+            UserAddressDetails userAddress = new UserAddressDetails();
+            userAddress.setUsername_id(sessionMgr.getUidPreferences());
+            userAddress.setAddressLatitude(placeLatitude);
+            userAddress.setAddressLongitude(placeLongitude);
+            userAddress.setCompleteAddress(placeAddress);
+            userAddress.setDetailAddress(placeDetail);
+            userAddress.setLabelAddress(placeLabel);
 
+
+            mDatabase.child("userDetailAddress").push().setValue(userAddress);
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            // your code here
+                        }
+                    },
+                    5000
+            );
+
+            startActivity(intentShowAllAddress);
+            progressBarLayout.setVisibility(View.GONE);
+        }
 //        mCreateNewAddressTask = new UserCreateNewAddress();
 //        mCreateNewAddressTask.execute((Void)null);
        // showProgress(true);
-        Log.d("createaddress",sessionMgr.getUidPreferences());
-        progressBarLayout.setVisibility(View.VISIBLE);
-        UserAddressDetails userAddress = new UserAddressDetails();
-        userAddress.setUsername_id(sessionMgr.getUidPreferences());
-        userAddress.setAddressLatitude(placeLatitude);
-        userAddress.setAddressLongitude(placeLongitude);
-        userAddress.setCompleteAddress(placeAddress);
-        userAddress.setDetailAddress(placeDetail);
-        userAddress.setLabelAddress(placeLabel);
 
 
-        mDatabase.child("userDetailAddress").push().setValue(userAddress);
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        // your code here
-                    }
-                },
-                5000
-        );
-
-        startActivity(intentShowAllAddress);
-        progressBarLayout.setVisibility(View.GONE);
         //showProgress(false);
     }
 
