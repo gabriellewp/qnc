@@ -268,7 +268,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
-                        Log.d("facebookatemptlogin","fail");
+                        Log.d("facebookatemptlogin","fail"+exception.toString());
                     }
                 });
         ImageButton fb = (ImageButton) findViewById(R.id.fb);

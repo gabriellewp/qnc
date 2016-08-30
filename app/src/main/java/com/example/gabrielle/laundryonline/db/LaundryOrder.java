@@ -18,8 +18,8 @@ public class LaundryOrder {
     private int takenTime;
     private String username_id;
     private int weight; //kg
-    private int rating;
-
+    private String rating;
+    private String review;
     public LaundryOrder(){
         this.addressLabel = "";
         this.note = "";
@@ -34,7 +34,8 @@ public class LaundryOrder {
         this.takenTime=0;
         this.username_id = "";
         this.weight = 0;
-        this.rating = 0;
+        this.rating = "";
+        this.review = "";
     }
     public void setAddressLabel(String label){this.addressLabel=label;}
     public void setNote(String note){this.note=note;}
@@ -49,7 +50,8 @@ public class LaundryOrder {
     public void setTakenTime(int time){this.takenTime=time;}
     public void setUsername_id(String username_id){this.username_id = username_id;}
     public void setWeight(int weight){this.weight = weight;}
-    public void setRating(int rating) {this.rating = rating;}
+    public void setRating(String rating) {this.rating = rating;}
+    public void setReview(String review) {this.rating = review;}
 
     public String getAddressLabel(){return this.addressLabel;}
     public String getNote(){return this.note;}
@@ -64,6 +66,6 @@ public class LaundryOrder {
     public int getTakenTime(){return this.takenTime;}
     public String getUsername_id(){return this.username_id;}
     public int getWeight(){return this.weight;}
-    public int getRating(){return this.rating;}
+    public String getRating(){return this.rating;}
 
 }

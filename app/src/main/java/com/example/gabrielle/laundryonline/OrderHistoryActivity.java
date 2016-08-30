@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -84,10 +85,14 @@ public class OrderHistoryActivity extends AppCompatActivity{
         rvpresent = (RecyclerView)findViewById(R.id.rvpresent);
         rvfuture = (RecyclerView)findViewById(R.id.rvfuture);
 
-        dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         calendar = Calendar.getInstance();
-        datenow= calendar.getTime();
 
+        calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE),0,0,0);
+        calendar.clear(Calendar.MILLISECOND);
+        datenow = calendar.getTime();
+        //calendar = DateUtils.truncate(calendar, Calendar.DATE);
+        Log.d("datenowincreate",datenow.toString());
 
         MyAsyncTask myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute();
@@ -136,10 +141,10 @@ public class OrderHistoryActivity extends AppCompatActivity{
         rvpast.addOnItemTouchListener(new RecyclerTouchListener(this, rvpast, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                LaundryOrder lo = orderListPast.get(position);
-                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
-                intentToDetailOrder.putExtra("timeRange",0);
-                startActivity(intentToDetailOrder);
+//                LaundryOrder lo = orderListPast.get(position);
+//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+//                intentToDetailOrder.putExtra("timeRange",0);
+//                startActivity(intentToDetailOrder);
             }
 
             @Override
@@ -154,10 +159,10 @@ public class OrderHistoryActivity extends AppCompatActivity{
         rvpresent.addOnItemTouchListener(new RecyclerTouchListener(this, rvpresent, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                LaundryOrder lo = orderListPresent.get(position);
-                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
-                intentToDetailOrder.putExtra("timeRange",1);
-                startActivity(intentToDetailOrder);
+//                LaundryOrder lo = orderListPresent.get(position);
+//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+//                intentToDetailOrder.putExtra("timeRange",1);
+//                startActivity(intentToDetailOrder);
 
             }
 
@@ -173,10 +178,10 @@ public class OrderHistoryActivity extends AppCompatActivity{
         rvfuture.addOnItemTouchListener(new RecyclerTouchListener(this, rvfuture, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                LaundryOrder lo = orderListFuture.get(position);
-                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
-                intentToDetailOrder.putExtra("timeRange",2);
-                startActivity(intentToDetailOrder);
+//                LaundryOrder lo = orderListFuture.get(position);
+//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+//                intentToDetailOrder.putExtra("timeRange",2);
+//                startActivity(intentToDetailOrder);
             }
 
                                     @Override
@@ -244,6 +249,10 @@ public class OrderHistoryActivity extends AppCompatActivity{
 
                     try{
                         dateLaundryOrder = dateFormat.parse(laundryOrderDate);
+                        Log.d("datenow",datenow.toString());
+                        Log.d("datelaundryorder",dateLaundryOrder.toString());
+                        //Calendar nowCal = Calendar.getInstance();
+                        //nowCal.set(dateLaundryOrder);
                         if(dateLaundryOrder.after(datenow)){
                             Log.d("addfuture","test1");
                             orderListFuture.add(lo);

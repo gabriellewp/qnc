@@ -3,6 +3,8 @@ package com.example.gabrielle.laundryonline;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,6 +42,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -235,6 +239,14 @@ public class PhoneVerificationActivity extends AppCompatActivity {
                 showProgress(false);
                 if(intentStr.equals("intentfromcreateacc")){
                     session.createLoginUID(uid);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.add(Calendar.DATE, 5);
+                    long when = calendar.getTimeInMillis();
+                    Intent myIntent = new Intent(PhoneVerificationActivity.this , AutoLogout.class);
+                    AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                    int uniqueID = (int)when;
+                    PendingIntent pi = PendingIntent.getBroadcast(PhoneVerificationActivity.this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.set(AlarmManager.RTC, when, pi);
                 }
                 showDialog();
                 //startActivity(intentShowOption);

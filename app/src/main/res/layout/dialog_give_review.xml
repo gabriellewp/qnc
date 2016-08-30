@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView android:id="@+id/kualitaslayananTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:text="KUALITAS LAYANAN"
+        android:gravity="left"
+        />
+    <RatingBar android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </RatingBar>
+    <TextView android:id="@+id/reviewTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:text="REVIEW"
+        android:gravity="left"
+        />
+
+    <EditText
+    android:id="@+id/review"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="#41802F"
+    />
+</LinearLayout>

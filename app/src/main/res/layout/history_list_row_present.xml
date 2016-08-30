@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:clickable="true"
     android:weightSum="5"
     >
     <LinearLayout
@@ -15,12 +14,14 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
+        android:id="@+id/linearlayoutorder"
         android:orientation="vertical">
         <TextView
             android:id="@+id/taken_date"
             android:textColor="@color/history_date"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:clickable="true"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

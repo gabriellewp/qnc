@@ -103,7 +103,7 @@
 
                 android:textColor="#98B858"
                 android:textSize="15dp"
-                android:text="DALAM PROSES22"
+                android:text="DALAM PROSES"
                 android:gravity="left"
                 android:layout_gravity="left"/>
             <android.support.v7.widget.RecyclerView

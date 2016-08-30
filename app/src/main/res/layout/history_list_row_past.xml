@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
-
-    android:clickable="true"
     android:weightSum="5"
     >
     <LinearLayout
@@ -16,6 +14,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
+        android:id="@+id/linearlayoutorder"
+        android:clickable="true"
         android:orientation="vertical">
         <TextView
             android:id="@+id/taken_date"

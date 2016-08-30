@@ -42,8 +42,10 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private LinearLayout outerLayout;
     private View mUIView, mProgressView;
+    private float numRating;
     private LaundryOrder lo;
     private List<LaundryOrder> orderList = new ArrayList<>();
+    private RatingBar ratingBarOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -76,7 +78,7 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
         jumlahpakaianTV = (TextView)findViewById(R.id.jumlahpakaian);
         detailPakaianTV = (TextView)findViewById(R.id.detailpakaian);
         kualitaslayananTV = (TextView)findViewById(R.id.kualitaslayanan);
-        RatingBar ratingBarOrder = (RatingBar) findViewById(R.id.ratingBar1);
+        ratingBarOrder = (RatingBar) findViewById(R.id.ratingBar1);
 
 
         idPesananTV.setText(orderId);
@@ -199,6 +201,8 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
             jumlahpakaianTV.setText("");
             detailPakaianTV.setText("");
             kualitaslayananTV.setText("");
+            numRating = Float.parseFloat(lo.getRating());
+            ratingBarOrder.setRating(numRating);
             showProgress(false);
 
 
