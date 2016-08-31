@@ -190,7 +190,7 @@ public class ShowOptionActivity extends Activity {
         //calendarView = (CalendarView)findViewById(R.id.calendarview);
         calendarViewMaterial = (MaterialCalendarView) findViewById(R.id.calendarView);
         final ArrayList<CalendarDay> list = new ArrayList<CalendarDay>();
-
+        final ArrayList<CalendarDay> listPast = new ArrayList<CalendarDay>();
         mDatabase.child("laundryOrders").orderByChild("username_id").equalTo(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -211,20 +211,24 @@ public class ShowOptionActivity extends Activity {
 
                     }
 
-//                    Log.d("orderdate",orderDate);
-//                    String[] tokens = orderDate.split(delims);
-//                    year = Integer.parseInt(tokens[0]);
-//                    month = Integer.parseInt(tokens[1])-1;
-//                    date = Integer.parseInt(tokens[2]);
-
-
-
-                    Log.d("calendar",cal.getTime()+"");
+                    Calendar todayCal = Calendar.getInstance();
                     CalendarDay calendarDay =CalendarDay.from(cal);
-                    list.add(calendarDay);
+
+                    if(cal.compareTo(todayCal)>0){
+                        list.add(calendarDay);
+                    }else{
+                        listPast.add(calendarDay);
+                    }
+
                     System.out.println(list.get(0));
                     Log.d("listofcal",list.toString());
-                    calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
+                    if(list.size()!=0){
+                        calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
+                    }
+                    if(listPast.size()!=0){
+                        calendarViewMaterial.addDecorator(new OrderDecoratorPast(Color.RED, listPast));
+                    }
+
                 }
                 try{
 
@@ -332,6 +336,26 @@ public class ShowOptionActivity extends Activity {
         @Override
         public void decorate(DayViewFacade view) {
             view.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.calendar_circle_decorator));
+
+        }
+    }
+    class OrderDecoratorPast implements DayViewDecorator {
+        private int mColor;
+        private HashSet<CalendarDay> mCalendarDayCollection;
+
+        public OrderDecoratorPast(int color, Collection<CalendarDay> dates) {
+            mColor = color;
+            mCalendarDayCollection = new HashSet<>(dates);
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return mCalendarDayCollection.contains(day);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.calendar_circle_decorator_past));
 
         }
     }

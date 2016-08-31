@@ -8,6 +8,10 @@
     tools:context=".OrderHistoryActivity"
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
 
     >
     <!-- Login progress -->
@@ -36,43 +40,6 @@
         android:src="@drawable/logosmall"
         android:background="#F2F2F2"
         />
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="#F2F2F2"-->
-            <!--android:orientation="vertical"-->
-            <!--android:id="@+id/warningLayout"-->
-            <!--android:visibility="gone">-->
-    <!--<TextView-->
-        <!--android:id="@+id/nullOrderWarningTextView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:text="Tidak ada daftar pesanan"-->
-        <!--android:textColor="#FFFFFF"-->
-        <!--/>-->
-    <!--<Button-->
-        <!--android:id="@+id/buatPesananButton"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:drawableTop="@mipmap/ic_add_black_24dp"-->
-        <!--android:text="Buat Baru"-->
-        <!--android:background="@drawable/button_bg"-->
-        <!--android:textSize="15sp"-->
-        <!--style="@style/Widget.AppCompat.Button.Colored"-->
-        <!--/>-->
-            <!--</LinearLayout>-->
-<!--<ScrollView-->
-    <!--android:orientation="vertical"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-    <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-    <!--android:background="@color/colorAccent"-->
-    <!--android:id="@+id/orderListScrollView"-->
-    <!--&gt;-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#98B858"
-                android:textSize="15dp"
+                android:textSize="10sp"
+                android:textStyle="bold"
                 android:text="MENDATANG"
                 android:gravity="left"
                 android:layout_gravity="left"/>
@@ -100,9 +68,9 @@
             <TextView android:id="@+id/textview2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:textColor="#98B858"
-                android:textSize="15dp"
+                android:textSize="10sp"
+                android:textStyle="bold"
                 android:text="DALAM PROSES"
                 android:gravity="left"
                 android:layout_gravity="left"/>
@@ -118,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#98B858"
-                android:textSize="15dp"
+                android:textSize="10sp"
+                android:textStyle="bold"
                 android:text="PESANAN YANG LALU"
                 android:gravity="left"
                 android:layout_gravity="left"/>

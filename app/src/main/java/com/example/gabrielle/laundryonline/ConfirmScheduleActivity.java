@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,6 +45,9 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
     private View progressBar;
     private String dateTime1Str,dateTime2Str, hour1, hour2;
     private int year1,month1,date1,year2,month2,date2,uniqueID;
+    private Calendar calDate1Done, calDate2Done;
+    private String date1Done, date2Done;
+    private SimpleDateFormat sdf;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -51,6 +55,7 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         Log.d("confirmschedule","test1");
         intentDateActivity = getIntent();
         session= new SessionManager(getApplicationContext());
+        sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         intentToShowOption = new Intent(this, ShowOptionActivity.class);
         hashMap = (HashMap<String, String>)intentDateActivity.getSerializableExtra("map");
         Log.v("HashMapTest", hashMap.get("label")); //label,address,detail
@@ -91,6 +96,19 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         jam2TV.setText(hour2);
         dateTime1Str = intentDateActivity.getStringExtra("dateTime1");
         dateTime2Str = intentDateActivity.getStringExtra("dateTime2");
+        try{
+            calDate1Done = Calendar.getInstance();
+            calDate1Done.setTime(sdf.parse(dateTime1Str));
+            calDate1Done.add(Calendar.DATE, 3);
+            date1Done = sdf.format(calDate1Done.getTime());
+
+            calDate2Done = Calendar.getInstance();
+            calDate2Done.setTime(sdf.parse(dateTime2Str));
+            calDate2Done.add(Calendar.DATE, 3);
+            date2Done = sdf.format(calDate2Done.getTime());
+        }catch (Exception e){
+
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Log.d("confirmschedule","test2");
     }
@@ -116,12 +134,13 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         lo1.setPackage_id(0);
         lo1.setPaymentStatus(1);
         lo1.setPrice(5000);
-        lo1.setReturnDate(dateTime1Str);
+        lo1.setReturnDate(date1Done);
         lo1.setReturnTime(Integer.parseInt(hour1));
         lo1.setTakenDate(dateTime1Str);
         lo1.setTakenTime(Integer.parseInt(hour1));
         lo1.setUsername_id(session.getUidPreferences());
         lo1.setWeight(10);
+        lo1.setRating("0.0");
 
         LaundryOrder lo2 = new LaundryOrder();
         lo2.setAddressLabel(intentDateActivity.getStringExtra("label"));
@@ -131,12 +150,13 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         lo2.setPackage_id(0);
         lo2.setPaymentStatus(1);
         lo2.setPrice(7000);
-        lo2.setReturnDate(dateTime2Str);
+        lo2.setReturnDate(date2Done);
         lo2.setReturnTime(Integer.parseInt(hour2));
         lo2.setTakenDate(dateTime2Str);
         lo2.setTakenTime(Integer.parseInt(hour2));
         lo2.setUsername_id(session.getUidPreferences());
         lo2.setWeight(11);
+        lo2.setRating("0.0");
 
         mDatabase.child("laundryOrders").push().setValue(lo1);
         mDatabase.child("laundryOrders").push().setValue(lo2);
@@ -150,7 +170,7 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
                 5000
         );
         Calendar calendaralarm = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
         long when;
         try{
             calendaralarm.setTime(sdf.parse(dateTime1Str));// all done

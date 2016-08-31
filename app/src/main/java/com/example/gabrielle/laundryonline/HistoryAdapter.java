@@ -16,6 +16,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.gabrielle.laundryonline.db.LaundryOrder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -23,15 +28,18 @@ import java.util.List;
  * Created by gabrielle on 5/28/2016.
  */
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder>{
+    private DatabaseReference mDatabase;
     private List<LaundryOrder> orderList;
     private int timeRange;
     private Context context;
     private Intent intentToDetailOrder;
     private LaundryOrder lo;
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout ll;
         public TextView takenDate, packageType, status;
         public Button actionButton;
+        private String orderID;
         public MyViewHolder(View view) {
             super(view);
             view.setBackgroundResource(R.drawable.past_order_bg);
@@ -50,6 +58,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         this.timeRange = timeRange;
         this.context = _context;
         intentToDetailOrder = new Intent(context, ShowOrderDetailActivity.class);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
     public int getTimeRange(){
         return this.timeRange;
@@ -74,11 +83,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     }
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
        lo = orderList.get(position);
         Log.d("holderhistoryadapter",lo.getTakenDate());
         Log.d("masuksiniloh","onbindviewholder"+timeRange);
-
+        holder.orderID = lo.getOrderID();
+        Log.d("orderidinadaptert1",lo.getOrderID());
         holder.takenDate.setText(lo.getTakenDate());
         if(lo.getPackage_id()==0){
             holder.packageType.setText("wash&fold");
@@ -99,7 +109,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             public void onClick(View v) {
                 /// button click
                 //showDialog();
-                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+                Log.d("orderlistposition",position+"");
+                Log.d("orderidinadapter",lo.getOrderID());
+                intentToDetailOrder.putExtra("orderID",holder.orderID);
                 intentToDetailOrder.putExtra("timeRange",1);
                 context.startActivity(intentToDetailOrder);
             }
@@ -109,11 +121,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             public void onClick(View v) {
                 /// button click
                 if(timeRange==0){
-                    showDialogPast();
+                    showDialogPast(holder.orderID);
                 }else if(timeRange==1){
-                    showDialogPresent();
+                    showDialogPresent(holder.orderID);
                 }else if(timeRange==2){
-                    showDialogFuture();
+                    showDialogFuture(holder.orderID);
                 }
 
             }
@@ -125,7 +137,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         Log.d("historadapteritemcount",orderList.size()+"");
         return orderList.size();
     }
-    public void showDialogPast(){
+    public void showDialogPast(String id){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         View dialogView = inflater.inflate(R.layout.dialog_give_review, null);
@@ -137,6 +149,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d("review",reviewText.getText().toString());
                         Log.d("ratingbar",String.valueOf(rtb.getRating()));
+                        mDatabase.child("laundryOrders").child(lo.getOrderID()).child("rating").setValue(String.valueOf(rtb.getRating()));
+                        mDatabase.child("laundryOrders").child(lo.getOrderID()).child("review").setValue(reviewText.getText().toString());
                         dialog.cancel();
                     }
                 })
@@ -149,7 +163,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-    public void showDialogPresent(){
+    public void showDialogPresent(String id){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage("Status Sekarang \r\n"+lo.getOrderStatus())
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -161,7 +175,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-    public void showDialogFuture(){
+    public void showDialogFuture(String id){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage("Apakah ingin dibatalkan?")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

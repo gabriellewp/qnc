@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import com.example.gabrielle.laundryonline.db.LaundryOrder;
 import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,13 +71,8 @@ public class OrderHistoryActivity extends AppCompatActivity{
         Intent intent = getIntent();
         sessionmgr = new SessionManager(getApplicationContext());
         intentToDetailOrder = new Intent(this, ShowOrderDetailActivity.class);
-        //warningLayout = (LinearLayout) findViewById(R.id.warningLayout);
-        //orderListScrollView = (Line) findViewById(R.id.orderListScrollView);
-        //createOrderButton = (Button) findViewById(R.id.buatPesananButton);
         intentAddOrder = new Intent(this, ShowAllAddressActivity.class);
-//
 
-        //mAuth.signOut();
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mProgressView = findViewById(R.id.showOrderProgress);
@@ -236,6 +232,24 @@ public class OrderHistoryActivity extends AppCompatActivity{
 
         //Query queryRef = mDatabase.orderByChild("laudryOrders/username_email").equalTo(mUserEmail);
         Log.d("orderhistoryuseruid",sessionmgr.getUidPreferences());
+//        mDatabase.child("laundryOrders").child("laundryOrders").orderByChild("username_id").equalTo(sessionmgr.getUidPreferences()).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+//            }
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+//            }
+//        });
         mDatabase.child("laundryOrders").orderByChild("username_id").equalTo(sessionmgr.getUidPreferences()).addValueEventListener((new ValueEventListener() {
 
             @Override
@@ -255,6 +269,7 @@ public class OrderHistoryActivity extends AppCompatActivity{
                         //nowCal.set(dateLaundryOrder);
                         if(dateLaundryOrder.after(datenow)){
                             Log.d("addfuture","test1");
+                            Log.d("orderid",lo.getOrderID());
                             orderListFuture.add(lo);
                         }else if(dateLaundryOrder.equals(datenow)){
                             Log.d("addpresent","test2");
@@ -381,6 +396,8 @@ public class OrderHistoryActivity extends AppCompatActivity{
                     //warningLayout.setVisibility(View.VISIBLE);
                 }else{
                     Log.d("setlayout","anyhistory");
+//                    Log.d("orderidorder1",orderListPast.get(0).getOrderID());
+//                    Log.d("orderidorder1",orderListPast.get(1).getOrderID());
 
                 }
             }

@@ -20,6 +20,7 @@ import com.example.gabrielle.laundryonline.db.UserAddressDetails;
 import com.google.android.gms.vision.face.Landmark;
 import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +38,7 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
     private TextView idPesananTV, statusTV, tglpenjemputanTV, wktpenjemputanTV, alamatTV, noteTV,
     tanggalKirimTV, waktukirimTV,beratTV, hargaTV, jumlahpakaianTV, detailPakaianTV, kualitaslayananTV;
     private int timeRange;
-    private String orderId;
+    private String orderId,rating,review;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private LinearLayout outerLayout;
@@ -127,6 +128,7 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
     }
 
     public void getData(){
+
         mDatabase.child("laundryOrders").child(orderId).addValueEventListener((new ValueEventListener() {
 
             @Override
@@ -136,6 +138,8 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
                 Log.d("orderhistorystrigxxx",snapshot.getValue().toString());
                 LaundryOrder dbLo = snapshot.getValue(LaundryOrder.class);
                 //orderList.add(dbLo);
+                rating = snapshot.child("rating").getValue().toString();
+                review = snapshot.child("review").getValue().toString();
                 lo.setTakenDate(dbLo.getTakenDate());
                 lo.setAddressLabel(dbLo.getAddressLabel());
                 lo.setOrderStatus(dbLo.getOrderStatus());
@@ -148,7 +152,9 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
                 lo.setReturnTime(dbLo.getReturnTime());
                 lo.setTakenDate(dbLo.getTakenDate());
                 lo.setTakenTime(dbLo.getTakenTime());
-                Log.d("takendate",lo.getTakenDate());
+                lo.setRating(dbLo.getRating());
+                lo.setReview(dbLo.getReview());
+
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
@@ -201,8 +207,12 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
             jumlahpakaianTV.setText("");
             detailPakaianTV.setText("");
             kualitaslayananTV.setText("");
-            numRating = Float.parseFloat(lo.getRating());
+            //Log.d("ratingdrdb",lo.getRating());
+            numRating = Float.parseFloat(rating);
+            Log.d("test2",numRating+"");
             ratingBarOrder.setRating(numRating);
+
+
             showProgress(false);
 
 

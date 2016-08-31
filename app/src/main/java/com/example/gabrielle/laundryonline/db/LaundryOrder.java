@@ -34,7 +34,7 @@ public class LaundryOrder {
         this.takenTime=0;
         this.username_id = "";
         this.weight = 0;
-        this.rating = "";
+        this.rating = "0.0";
         this.review = "";
     }
     public void setAddressLabel(String label){this.addressLabel=label;}
@@ -67,5 +67,6 @@ public class LaundryOrder {
     public String getUsername_id(){return this.username_id;}
     public int getWeight(){return this.weight;}
     public String getRating(){return this.rating;}
+    public String getReview(){return this.review;}
 
 }

@@ -352,7 +352,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
 
     private void getHours(){
         hours = new ArrayList<Integer>();
-        for(int index=1;index<=24;index++){
+        for(int index=8;index<=17;index++){
             hours.add(index);
         }
         //return hours;
