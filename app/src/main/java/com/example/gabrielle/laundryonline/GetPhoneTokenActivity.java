@@ -156,15 +156,15 @@ public class GetPhoneTokenActivity extends AppCompatActivity {
                 String postParams = buildPostDataString(nameValuePairs);
                 // Execute HTTP Post
                 OutputStream outputStream = connection.getOutputStream();
-                Log.d("doinbackground","servlet6");
+                //Log.d("doinbackground","servlet6");
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                Log.d("doinbackground","servlet7");
+                //Log.d("doinbackground","servlet7");
                 writer.write(postParams);
                 writer.flush();
                 writer.close();
                 outputStream.close();
                 connection.connect();
-                Log.d("doinbackground","servlet8");
+                //Log.d("doinbackground","servlet8");
                 // Read response
                 int responseCode = connection.getResponseCode();
                 StringBuilder response = new StringBuilder();
@@ -181,8 +181,9 @@ public class GetPhoneTokenActivity extends AppCompatActivity {
                         JSONObject myObject = new JSONObject(response.toString());
                         returnString = myObject.getString("success");
                         messag = myObject.getString("message");
-                        Log.d("returnString",returnString);
-                        Log.d("returnMessage",messag);
+                        //Log.d("returnString",returnString);
+                        //Log.d("returnMessage",messag);
+
                     }catch (JSONException jse){
 
                     }
@@ -196,7 +197,7 @@ public class GetPhoneTokenActivity extends AppCompatActivity {
             }
 
 
-            return "true";
+            return "false";
 
         }
 

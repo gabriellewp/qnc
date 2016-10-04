@@ -88,19 +88,89 @@ public class OrderHistoryActivity extends AppCompatActivity{
         calendar.clear(Calendar.MILLISECOND);
         datenow = calendar.getTime();
         //calendar = DateUtils.truncate(calendar, Calendar.DATE);
-        Log.d("datenowincreate",datenow.toString());
+        //Log.d("datenowincreate",datenow.toString());
 
         MyAsyncTask myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute();
 
     }
     public void setLayout(){
-        Log.d("orderlistPast12:",orderListPast.size()+"");
-        Log.d("orderlistPresent12:",orderListPresent.size()+"");
-        Log.d("orderlistFuture12:",orderListFuture.size()+"");
-        mAdapterPast = new HistoryAdapter(orderListPast,0,this);
-        mAdapterPresent = new HistoryAdapter(orderListPresent,1,this);
-        mAdapterFuture = new HistoryAdapter(orderListFuture,2,this);
+        //Log.d("orderlistPast12:",orderListPast.size()+"");
+        //Log.d("orderlistPresent12:",orderListPresent.size()+"");
+        //Log.d("orderlistFuture12:",orderListFuture.size()+"");
+        if(orderListPast.size()!=0){
+            mAdapterPast = new HistoryAdapter(orderListPast,0,this);
+            final LinearLayoutManager llmpast = new LinearLayoutManager(this);
+            llmpast.setOrientation(LinearLayoutManager.VERTICAL);
+            rvpast.setLayoutManager(llmpast);
+            
+            rvpast.setItemAnimator(new DefaultItemAnimator());
+            rvpast.setAdapter(mAdapterPast);
+            rvpast.addItemDecoration(new DividerItemLine(this, LinearLayoutManager.VERTICAL));
+            rvpast.addOnItemTouchListener(new RecyclerTouchListener(this, rvpast, new ClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+//                LaundryOrder lo = orderListPast.get(position);
+//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+//                intentToDetailOrder.putExtra("timeRange",0);
+//                startActivity(intentToDetailOrder);
+                }
+
+                @Override
+                public void onLongClick(View view, int position) {
+
+                }
+            }));
+        }
+        if(orderListFuture.size()!=0){
+            mAdapterFuture = new HistoryAdapter(orderListFuture,2,this);
+            final LinearLayoutManager llmfuture = new LinearLayoutManager(this);
+            llmfuture.setOrientation(LinearLayoutManager.VERTICAL);
+            rvfuture.setLayoutManager(llmfuture);
+            rvfuture.setItemAnimator(new DefaultItemAnimator());
+            rvfuture.setAdapter(mAdapterFuture);
+            rvfuture.addItemDecoration(new DividerItemLine(this, LinearLayoutManager.VERTICAL));
+            rvfuture.addOnItemTouchListener(new RecyclerTouchListener(this, rvfuture, new ClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+//                LaundryOrder lo = orderListFuture.get(position);
+//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+//                intentToDetailOrder.putExtra("timeRange",2);
+//                startActivity(intentToDetailOrder);
+                }
+
+                @Override
+                public void onLongClick(View view, int position) {
+
+                }
+            }));
+        }
+        if(orderListPresent.size()!=0){
+            mAdapterPresent = new HistoryAdapter(orderListPresent,1,this);
+            final LinearLayoutManager llmpresent = new LinearLayoutManager(this);
+            llmpresent.setOrientation(LinearLayoutManager.VERTICAL);
+            rvpresent.setLayoutManager(llmpresent);
+            rvpresent.setItemAnimator(new DefaultItemAnimator());
+            rvpresent.setAdapter(mAdapterPresent);
+            rvpresent.addItemDecoration(new DividerItemLine(this, LinearLayoutManager.VERTICAL));
+            rvpresent.addOnItemTouchListener(new RecyclerTouchListener(this, rvpresent, new ClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+//                LaundryOrder lo = orderListPresent.get(position);
+//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
+//                intentToDetailOrder.putExtra("timeRange",1);
+//                startActivity(intentToDetailOrder);
+
+                }
+
+                @Override
+                public void onLongClick(View view, int position) {
+
+                }
+            }));
+        }
+
+
 
 
 
@@ -111,83 +181,28 @@ public class OrderHistoryActivity extends AppCompatActivity{
 //                return false;
 //            }
 //        };
-        final LinearLayoutManager llmfuture = new LinearLayoutManager(this);
-        llmfuture.setOrientation(LinearLayoutManager.VERTICAL);
+
 //        final LinearLayoutManager llmpresent = new LinearLayoutManager(this){
 //            @Override
 //            public boolean canScrollVertically() {
 //                return false;
 //            }
 //        };
-        final LinearLayoutManager llmpresent = new LinearLayoutManager(this);
-        llmpresent.setOrientation(LinearLayoutManager.VERTICAL);
+
 //        final LinearLayoutManager llmpast = new LinearLayoutManager(this) {
 //            @Override
 //            public boolean canScrollVertically() {
 //                return false;
 //            }
 //        };
-        final LinearLayoutManager llmpast = new LinearLayoutManager(this);
-        llmpast.setOrientation(LinearLayoutManager.VERTICAL);
 
-        rvpast.setLayoutManager(llmpast);
-        rvpast.setItemAnimator(new DefaultItemAnimator());
-        rvpast.setAdapter(mAdapterPast);
-        rvpast.addItemDecoration(new DividerItemLine(this, LinearLayoutManager.VERTICAL));
-        rvpast.addOnItemTouchListener(new RecyclerTouchListener(this, rvpast, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-//                LaundryOrder lo = orderListPast.get(position);
-//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
-//                intentToDetailOrder.putExtra("timeRange",0);
-//                startActivity(intentToDetailOrder);
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
 
-            }
-        }));
-        rvpresent.setLayoutManager(llmpresent);
-        rvpresent.setItemAnimator(new DefaultItemAnimator());
-        rvpresent.setAdapter(mAdapterPresent);
-        rvpresent.addItemDecoration(new DividerItemLine(this, LinearLayoutManager.VERTICAL));
-        rvpresent.addOnItemTouchListener(new RecyclerTouchListener(this, rvpresent, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-//                LaundryOrder lo = orderListPresent.get(position);
-//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
-//                intentToDetailOrder.putExtra("timeRange",1);
-//                startActivity(intentToDetailOrder);
 
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-        rvfuture.setLayoutManager(llmfuture);
-        rvfuture.setItemAnimator(new DefaultItemAnimator());
-        rvfuture.setAdapter(mAdapterFuture);
-        rvfuture.addItemDecoration(new DividerItemLine(this, LinearLayoutManager.VERTICAL));
-        rvfuture.addOnItemTouchListener(new RecyclerTouchListener(this, rvfuture, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-//                LaundryOrder lo = orderListFuture.get(position);
-//                intentToDetailOrder.putExtra("orderID",lo.getOrderID());
-//                intentToDetailOrder.putExtra("timeRange",2);
-//                startActivity(intentToDetailOrder);
-            }
-
-                                    @Override
-                                            public void onLongClick(View view, int position) {
-
-            }
-        }));
-        Log.d("mAdapaterFuturet",mAdapterFuture.getItemCount()+"");
-        Log.d("mAdapterPresent",mAdapterPresent.getItemCount()+"");
-        Log.d("mAdapaterPast",mAdapterPast.getItemCount()+"");
+//        Log.d("mAdapaterFuturet",mAdapterFuture.getItemCount()+"");
+//        Log.d("mAdapterPresent",mAdapterPresent.getItemCount()+"");
+//        Log.d("mAdapaterPast",mAdapterPast.getItemCount()+"");
     }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -254,7 +269,7 @@ public class OrderHistoryActivity extends AppCompatActivity{
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.d("orderhistorystrig",snapshot.getValue().toString());
+                //Log.d("orderhistorystrig",snapshot.getValue().toString());
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Log.d("orderhistorystrigds",postSnapshot.getValue().toString());
                     LaundryOrder lo = postSnapshot.getValue(LaundryOrder.class);
@@ -268,14 +283,14 @@ public class OrderHistoryActivity extends AppCompatActivity{
                         //Calendar nowCal = Calendar.getInstance();
                         //nowCal.set(dateLaundryOrder);
                         if(dateLaundryOrder.after(datenow)){
-                            Log.d("addfuture","test1");
-                            Log.d("orderid",lo.getOrderID());
+                            //Log.d("addfuture","test1");
+                            //Log.d("orderid",lo.getOrderID());
                             orderListFuture.add(lo);
                         }else if(dateLaundryOrder.equals(datenow)){
-                            Log.d("addpresent","test2");
+                            //Log.d("addpresent","test2");
                             orderListPresent.add(lo);
                         }else if(dateLaundryOrder.before(datenow)){
-                            Log.d("addpast","test3");
+                            //Log.d("addpast","test3");
                             orderListPast.add(lo);
                         }
                     }catch (Exception e){

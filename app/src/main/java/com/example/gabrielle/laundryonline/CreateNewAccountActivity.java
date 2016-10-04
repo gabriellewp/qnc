@@ -138,16 +138,16 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d("authstatelistenercreate" ,"onAuthStateChanged:signed_in:" + user.getUid());
+                    //Log.d("authstatelistenercreate" ,"onAuthStateChanged:signed_in:" + user.getUid());
                     uid = user.getUid();
                     isUserSignIn = true;
                     if(isCreatebySocialMedia){
                         mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.d("lgoinwithfb","test1");
+                                //Log.d("lgoinwithfb","test1");
                                 if(!dataSnapshot.exists()){ //login with fb and google
-                                    Log.d("nochildwithfacebookid",user.getUid());
+                                    //Log.d("nochildwithfacebookid",user.getUid());
                                     User newUser = new User();
                                     newUser.setUsername_ID(user.getUid());
                                     SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -167,7 +167,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
 
                                     }
                                 }else{
-                                    Log.d("childwiththisfacebookid","");
+                                    //Log.d("childwiththisfacebookid","");
                                     intentShowOption = new Intent(CreateNewAccountActivity.this,ShowOptionActivity.class);
 
                                     mDatabase.child("users").child(user.getUid()).addValueEventListener((new ValueEventListener() {
@@ -182,7 +182,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                                                 }catch(Exception e) {
 
                                                 }
-                                                Log.d("telNumberusersnapshot","");
+                                                //Log.d("telNumberusersnapshot","");
                                                 intentGetToken.putExtra("telNumber","");
                                                 intentGetToken.putExtra("uid",user.getUid());
 
@@ -194,7 +194,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.add(Calendar.DATE, 5);
                                                 long when = calendar.getTimeInMillis();
-                                                Log.d("logoutday",calendar.getTime()+"");
+                                                //Log.d("logoutday",calendar.getTime()+"");
                                                 Intent myIntent = new Intent(CreateNewAccountActivity.this , AutoLogout.class);
                                                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
                                                 int uniqueID = (int)when;
@@ -221,7 +221,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                     }
                 } else {
                     // User is signed out
-                    Log.d("authstatelistenercreate", "onAuthStateChanged:signed_out");
+                    //Log.d("authstatelistenercreate", "onAuthStateChanged:signed_out");
                     isUserSignIn = false;
                 }
             }
@@ -279,7 +279,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
-                        Log.d("facebookatemptlogin","success");
+                        //Log.d("facebookatemptlogin","success");
                         session.createLoginOption(1);
                         isCreatebySocialMedia = true;
                         handleFacebookAccessToken(loginResult.getAccessToken());
@@ -289,13 +289,13 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                     @Override
                     public void onCancel() {
                         // App code
-                        Log.d("facebookatemptlogin","cancel");
+                        //Log.d("facebookatemptlogin","cancel");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
-                        Log.d("facebookatemptlogin","fail"+exception.toString());
+                        //Log.d("facebookatemptlogin","fail"+exception.toString());
 
                     }
                 });
@@ -323,11 +323,11 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                 .build();
         SignInButton googleLoginButton = (SignInButton) findViewById(R.id.google_sign_in_button);
         ImageButton googlesigninIB = (ImageButton)findViewById(R.id.googlesignin);
-        Log.d("scopearray",gso.getScopeArray().length+"");
+        //Log.d("scopearray",gso.getScopeArray().length+"");
         googlesigninIB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("googlelogin","test1");
+                //Log.d("googlelogin","test1");
                 session.createLoginOption(2);
                 googleSignIn();
             }
@@ -338,7 +338,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
         googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("googlelogin","test1");
+                //Log.d("googlelogin","test1");
                 session.createLoginOption(2);
                 googleSignIn();
             }
@@ -361,7 +361,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d("onConnectionFailed:" ,connectionResult.toString());
+        //Log.d("onConnectionFailed:" ,connectionResult.toString());
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
@@ -444,16 +444,23 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                         .addOnCompleteListener(CreateNewAccountActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d("userauth", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                                //Log.d("userauth", "createUserWithEmail:onComplete:" + task.isSuccessful());
                                 if (!task.isSuccessful()) {
-                                    mEmailView.setError("Email already exist");
+                                    showProgress(false);
+                                    mEmailView.setError("Tidak bisa buat akun baru");
                                 }else{
                                     createSuccess = true;
                                 }
                             }
-                        });
+                        }).addOnFailureListener(CreateNewAccountActivity.this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showProgress(false);
+                        mEmailView.setError("Akun sudah ada");
+                    }
+                });
             }else{
-
+                //auth with username and password
                 mDatabase.child("users").child(uid).child("telNumber").setValue(telephonenumber);
             }
 
@@ -539,14 +546,15 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
 
                 //dbhandler manajemen
                 try {
+                    String link  = "<a href=\\\"WWW.google.es\\\">ACTIVAR CUENTA</a>";
+                    String body = "Hi, "+firstName+","+"\r\n"+"You've registered at QnCLaundry. "+"\r\n"+"Click the link below to confirm your email address: "+"\r\n"+"https://qncbackend.appspot.com/verifying?param="+uid;
 
-                    String body = "Hi, "+firstName+","+"\r\n"+"You've registered at QnCLaundry. "+"\r\n"+"Follow the link below to confirm your email address: "+"\r\n"+"https://qncbackend.appspot.com/verifying?param="+uid;
                     ms.sendMail("Please complete your QnCLaundry signup.", body,
                             "qnclaundry@gmail.com", email);
-                    Log.d("sendingemaildone","");
+                    //Log.d("sendingemaildone","");
                 } catch (Exception e) {
                     ex = e;
-                    Log.e("SendMail", e.getMessage(), e);
+                    //Log.e("SendMail", e.getMessage(), e);
                 }
                 try {
                     // Set up the request
@@ -568,15 +576,15 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                     String postParams = buildPostDataString(nameValuePairs);
                     // Execute HTTP Post
                     OutputStream outputStream = connection.getOutputStream();
-                    Log.d("doinbackground","servlet6");
+                    //Log.d("doinbackground","servlet6");
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                    Log.d("doinbackground","servlet7");
+                    //Log.d("doinbackground","servlet7");
                     writer.write(postParams);
                     writer.flush();
                     writer.close();
                     outputStream.close();
                     connection.connect();
-                    Log.d("doinbackground","servlet8");
+                    //Log.d("doinbackground","servlet8");
                     // Read response
                     int responseCode = connection.getResponseCode();
                     StringBuilder response = new StringBuilder();
@@ -594,8 +602,8 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                             JSONObject myObject = new JSONObject(response.toString());
                             returnString = myObject.getString("success");
                             messag = myObject.getString("message");
-                            Log.d("returnString",returnString);
-                            Log.d("returnMessage",messag);
+                            //Log.d("returnString",returnString);
+                            //Log.d("returnMessage",messag);
                         }catch (JSONException jse){
 
                         }
@@ -636,7 +644,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
             //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
             //starting phoneactivity
             if(result.equals("true")){
-                Log.d("resultcreatenewaccount",result);
+                //Log.d("resultcreatenewaccount",result);
                 new java.util.Timer().schedule(
                         new java.util.TimerTask() {
                             @Override
@@ -650,7 +658,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                 //FirebaseAuth.getInstance().signOut();
                 intentPhoneVerificationActivity.putExtra("intent","intentfromcreateacc");
                 startActivity(intentPhoneVerificationActivity);
-                Log.d("responsefrompost",result);
+                //Log.d("responsefrompost",result);
             }else{
                 showProgress(false);
                 showDialog();
@@ -662,7 +670,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
     }
     // [START auth_with_facebook]
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d("handleFacebooktoken",token.getToken()+"");
+        //Log.d("handleFacebooktoken",token.getToken()+"");
         // [START_EXCLUDE silent]
         showProgress(true);
         // [END_EXCLUDE]
@@ -679,13 +687,13 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("fbsignin:onComplete:", task.isSuccessful()+"");
+                        //Log.d("fbsignin:onComplete:", task.isSuccessful()+"");
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w("fbsigninCredentialfail", task.getException());
+                            //Log.w("fbsigninCredentialfail", task.getException());
 
                         }else{
                             //showProgress(false);
@@ -704,20 +712,20 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
         Log.d("googlesignin","onactivityresult");
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            Log.d("googlesignin","onactivityresultrcsignin");
+            //Log.d("googlesignin","onactivityresultrcsignin");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             int statusCode = result.getStatus().getStatusCode();
-            Log.d("statuscodegooglesignin",statusCode+"");
+            //Log.d("statuscodegooglesignin",statusCode+"");
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
-                Log.d("googlesignin","success");
+                //Log.d("googlesignin","success");
                 GoogleSignInAccount account = result.getSignInAccount();
                 // mFullName = acct.getDisplayName();
                 // mEmail = acct.getEmail();
                 isCreatebySocialMedia = true;
                 firebaseAuthWithGoogle(account);
             } else {
-                Log.d("googlesignin","failed");
+                //Log.d("googlesignin","failed");
                 // Google Sign In failed, update UI appropriately
                 // [START_EXCLUDE]
                 GoogleSignInAccount account = result.getSignInAccount();
@@ -733,7 +741,7 @@ public class CreateNewAccountActivity extends AppCompatActivity implements Googl
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d( "firebaseAuthWithGoogle:" ,acct.getId());
+        //Log.d( "firebaseAuthWithGoogle:" ,acct.getId());
         // [START_EXCLUDE silent]
         showProgress(true);
         // [END_EXCLUDE]

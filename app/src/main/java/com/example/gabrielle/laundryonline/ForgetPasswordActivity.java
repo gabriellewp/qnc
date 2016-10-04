@@ -1,5 +1,7 @@
 package com.example.gabrielle.laundryonline;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -22,6 +24,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,13 +41,14 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class ForgetPasswordActivity extends AppCompatActivity {
     private EditText emailTextInput;
-    private Button resetButton;
+    private Button resetButton,cancelButton;
     private String email;
     private DatabaseReference mDatabase;
     private SessionManager session;
     private TextView warningTV;
     private FirebaseAuth mAuth;
-
+    private View progressBar;
+    private LinearLayout ll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,51 +59,83 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         emailTextInput = (EditText) findViewById(R.id.emailInput);
         resetButton = (Button) findViewById(R.id.resetPassword);
-        warningTV = (TextView) findViewById(R.id.warningSendReset);
-        warningTV.setVisibility(View.INVISIBLE);
+        cancelButton = (Button)findViewById(R.id.batalKirimButton);
+        progressBar = findViewById(R.id.forgetPasswordProgress);
+        ll = (LinearLayout) findViewById(R.id.verificationCodeLayout);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("resetpasswordlink","test1");
+                //Log.d("resetpasswordlink","test1");
+                emailTextInput.setError(null);
                 resetPassword();
             }
         });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent backToLoginPage = new Intent(ForgetPasswordActivity.this,LoginActivity.class);
+                startActivity(backToLoginPage);
+            }
+        });
+
         //telephoneNumber = "081221084303";
     }
+    public void showDialog(final String msg){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(msg)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                            finish();
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.contains("@");
+    }
+
     public void resetPassword() {
-        Log.d("resetpasswordlink","test2");
+        //Log.d("resetpasswordlink","test2");
+
+        boolean cancel = false;
+        View focusView = null;
         email = emailTextInput.getText().toString();
-        Log.d("resetpasswordlink","test3"+email);
-
-        if(mAuth!=null){
-            Log.d("resetpasswordlink","authnotnull");
-            mAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    warningTV.setVisibility(View.VISIBLE);
-                    Log.d("resetpasswordlink","success");
-                    new java.util.Timer().schedule(
-                            new java.util.TimerTask() {
-                                @Override
-                                public void run() {
-                                    // your code here
-                                }
-                            },
-                            1000
-                    );
-                    finish();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    warningTV.setText("Reset Password Failed");
-                    Log.d("resetpassword","fail");
-                    warningTV.setVisibility(View.VISIBLE);
-                }
-            });
-        }else{
-            Log.d("resetpasswordlink","authnull");
+        if(email.length()==0||!isEmailValid(email) ){
+            emailTextInput.setError("Email tidak valid");
+            focusView=emailTextInput;
+            cancel=true;
         }
+        //Log.d("resetpasswordlink","test3"+email);
+        if(cancel){
+            focusView.requestFocus();
+        }else{
+            ll.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            if(mAuth!=null){
+                //Log.d("resetpasswordlink","authnotnull");
+                mAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        progressBar.setVisibility(View.GONE);
+                        showDialog("EMAIL TERKIRIM \r\n SILAHKAN CEK EMAIL ANDA \r\n UNTUK MENGATUR ULANG \r\n KATA KUNCI");
 
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressBar.setVisibility(View.GONE);
+                        ll.setVisibility(View.VISIBLE);
+                        emailTextInput.setError("EMAIL TIDAK DITEMUKAN");
+
+                    }
+                });
+            }else{
+                //Log.d("resetpasswordlink","authnull");
+            }
+        }
     }
 }

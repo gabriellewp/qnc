@@ -17,7 +17,7 @@
         android:id="@+id/linearlayoutorder"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/taken_date"
+            android:id="@+id/orderIDPresent"
             android:textColor="@color/history_date"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -26,13 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/package_type"
+            android:id="@+id/dateTakenPresent"
             android:textColor="@color/history_detail"
             android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/history_status"
+            android:id="@+id/dateReturnPresent"
             android:textColor="@color/history_detail"
             android:textSize="12sp"
             android:layout_width="match_parent"

@@ -18,7 +18,7 @@ public class AutoLogout extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("autologout","start");
+        //Log.d("autologout","start");
         session= new SessionManager(context);
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();

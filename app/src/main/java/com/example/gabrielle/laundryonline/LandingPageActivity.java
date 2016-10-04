@@ -202,6 +202,7 @@ public class LandingPageActivity extends AppCompatActivity{
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
             imageView.setImageResource(mResources[position]);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
            // addBottomDots(position);
             container.addView(itemView);
 

@@ -47,58 +47,81 @@
             android:layout_gravity="top|center"
             android:background="#F2F2F2"
             android:id="@+id/orderListScrollView"
+            android:weightSum="3"
             >
-            <TextView android:id="@+id/textview1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#98B858"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:text="MENDATANG"
-                android:gravity="left"
-                android:layout_gravity="left"/>
 
-            <android.support.v7.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars = "vertical"
-                android:id="@+id/rvfuture"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:layout_weight="1"
-                />
-            <TextView android:id="@+id/textview2"
+                android:background="#F2F2F2">
+                <TextView android:id="@+id/textview1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#98B858"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:text="MENDATANG"
+                    android:gravity="left"
+                    android:layout_gravity="left"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars = "vertical"
+                    android:id="@+id/rvfuture"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#98B858"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:text="DALAM PROSES"
-                android:gravity="left"
-                android:layout_gravity="left"/>
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars = "vertical"
-                android:id="@+id/rvpresent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:layout_weight="1"
+                android:background="#F2F2F2">
+                <TextView android:id="@+id/textview2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#98B858"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:text="DALAM PROSES"
+                    android:gravity="left"
+                    android:layout_gravity="left"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars = "vertical"
+                    android:id="@+id/rvpresent"
+                    android:layout_weight="1"
 
-                />
-            <TextView android:id="@+id/textview3"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#98B858"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:text="PESANAN YANG LALU"
-                android:gravity="left"
-                android:layout_gravity="left"/>
-            <android.support.v7.widget.RecyclerView
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars = "vertical"
-                android:id="@+id/rvpast"
+                android:background="#F2F2F2">
+                <TextView android:id="@+id/textview3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#98B858"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:text="PESANAN YANG LALU"
+                    android:gravity="left"
+                    android:layout_gravity="left"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars = "vertical"
+                    android:id="@+id/rvpast"
 
-                />
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 

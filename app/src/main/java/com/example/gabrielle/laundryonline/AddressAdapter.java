@@ -53,7 +53,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     }
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.d("onbindviewholder","address");
+        //Log.d("onbindviewholder","address");
         UserAddressDetails uad = userAddressDetailsList.get(position);
         holder.label.setText(uad.getLabelAddress());
         holder.detail.setText(uad.getCompleteAddress());

@@ -1,11 +1,13 @@
 package com.example.gabrielle.laundryonline;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +58,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
     int first, last;
     private Switch mySwitch;
     private HashMap<String, String> hashMap;
+    private boolean isTwice;
     /**
      * Created by gabrielle on 7/21/2016.
      */
@@ -67,7 +71,9 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
        // Log.v("HashMapTest", hashMap.get("key")); //label,address,detail
         getDates();
         getHours();
+        isTwice=false;
         positionCalendar1 = 0; positionHour1 = 0; positionCalendar2 = 0; positionHour2 = 0;
+        schedule1Date=""; schedule1Hour="";schedule2Date="";schedule2Hour="";scheduleDate1FDStr="";scheduleDate2FDStr="";
         rvCalendar1 = (RecyclerView) findViewById(R.id.pager);
         rvHour1 = (RecyclerView) findViewById(R.id.pagerhour1);
         rvCalendar2 = (RecyclerView) findViewById(R.id.pager2);
@@ -99,23 +105,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
                 CustomDate cd = dates.get(position);
                 schedule1Date = cd.getDay()+","+cd.getDate()+" "+cd.getMonth();
                 scheduleDate1FDStr = cd.getYear()+"/"+cd.getMonthDigit()+"/"+cd.getDate()+" ";
-//                for(int i =0; i<dates.size();i++){
-//                    Log.d("i",i+"");
-//                    Log.d("calendaradapter1concc",myCalendarAdapter1.container.getChildCount()+"yyy");
-//                    Log.d("calendaradapter1congi",myCalendarAdapter1.getItemCount()+"zzzz");
-//                   myCalendarAdapter1.container.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.dateUnselected));
-//                }
-                //rvCalendar1setBackgrounColor(getResources().getColor(R.color.dateUnselected));
-//                View v1 = rvCalendar1.getLayoutManager().getChildAt(positionCalendar1);
-//                v1.setBackgroundColor(getResources().getColor(R.color.dateUnselected));
-//                positionCalendar1 = position;
-//                View v2 = rvCalendar1.getLayoutManager().getChildAt(position);
-//                Log.d("positionCalendar1",positionCalendar1+"");
-//                v2.setBackgroundColor(getResources().getColor(R.color.dateSelected));
 
-                //Toast.makeText(getApplicationContext(),lo.getTakenDate(),Toast.LENGTH_SHORT).show();
-                //showDialog();
-                 //view.setBackgroundColor(getResources().getColor(R.color.dateSelected));
             }
 
             @Override
@@ -136,18 +126,7 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
                 schedule1TextView.setText(schedule1Date+schedule1Hour);
                 schedule1Hour = String.valueOf(hour);
 
-                //CustomDate cd = dates.get(position);
-                //rvCalendar1setBackgrounColor(getResources().getColor(R.color.dateUnselected));
-//                View v1 = rvCalendar1.getLayoutManager().getChildAt(positionCalendar1);
-//                v1.setBackgroundColor(getResources().getColor(R.color.dateUnselected));
-//                positionCalendar1 = position;
-//                View v2 = rvCalendar1.getLayoutManager().getChildAt(position);
-//                Log.d("positionCalendar1",positionCalendar1+"");
-//                v2.setBackgroundColor(getResources().getColor(R.color.dateSelected));
 
-                //Toast.makeText(getApplicationContext(),lo.getTakenDate(),Toast.LENGTH_SHORT).show();
-                //showDialog();
-                //view.setBackgroundColor(getResources().getColor(R.color.dateSelected));
             }
 
             @Override
@@ -283,16 +262,20 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
                                          boolean isChecked) {
 
                 if(isChecked){
-                    mySwitch.setTextColor(Color.GREEN);
+                    mySwitch.setTextColor(Color.WHITE);
                     calendar2Layout.setVisibility(View.VISIBLE);
                     hour2Layout.setVisibility(View.VISIBLE);
                     schedule2TextView.setVisibility(View.VISIBLE);
-
+                    isTwice = true;
                 }else{
                     mySwitch.setTextColor(Color.WHITE);
                     calendar2Layout.setVisibility(View.INVISIBLE);
                     hour2Layout.setVisibility(View.INVISIBLE);
                     schedule2TextView.setVisibility(View.INVISIBLE);
+                    isTwice=false;
+                    schedule2Date="";
+                    schedule2Hour="";
+                    scheduleDate2FDStr="";
                 }
 
             }
@@ -300,24 +283,53 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent showAllAddr = new Intent(DateConfigurationActivity2.this, ShowAllAddressActivity.class);
+                startActivity(showAllAddr);
                 //rvCalendar1.getLayoutManager().findscrollToPosition(linearLayoutManager.findLastVisibleItemPosition() + 1);
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean cancel = false;
                 intentConfirmSchedule.putExtra("map",hashMap);
                 intentConfirmSchedule.putExtra("date1",schedule1Date);
                 intentConfirmSchedule.putExtra("hour1",schedule1Hour);
-                intentConfirmSchedule.putExtra("date2", schedule2Date);
-                intentConfirmSchedule.putExtra("hour2",schedule2Hour);
-                scheduleDate1FDStr = scheduleDate1FDStr+Integer.parseInt(schedule1Hour)+":00:00";
-                intentConfirmSchedule.putExtra("dateTime1",scheduleDate1FDStr);
-                scheduleDate2FDStr = scheduleDate2FDStr+Integer.parseInt(schedule2Hour)+":00:00";
-                intentConfirmSchedule.putExtra("dateTime2",scheduleDate2FDStr);
-                startActivity(intentConfirmSchedule);
-                //rvCalendar1.getLayoutManager().findscrollToPosition(linearLayoutManager.findLastVisibleItemPosition() + 1);
+
+                if(schedule1Date.isEmpty()){
+                    showDialog("Tanggal Hari Pertama belum dipilih");
+                    cancel = true;
+                }
+                if(schedule1Hour.isEmpty()){
+                    showDialog("Jam Hari Pertama belum dipilih");
+                    cancel = true;
+                }
+                if(schedule2Date.isEmpty() && isTwice){
+                    showDialog("Tanggal Hari Kedua belum dipilih");
+                    cancel = true;
+                }
+                if(schedule2Hour.isEmpty() && isTwice){
+                    showDialog("Jam Hari Kedua belum dipilih");
+                    cancel = true;
+                }
+                if(cancel==false){
+                    scheduleDate1FDStr = scheduleDate1FDStr+Integer.parseInt(schedule1Hour)+":00:00";
+                    intentConfirmSchedule.putExtra("dateTime1",scheduleDate1FDStr);
+                    if(isTwice){
+                        intentConfirmSchedule.putExtra("date2", schedule2Date);
+                        intentConfirmSchedule.putExtra("hour2",schedule2Hour);
+                        scheduleDate2FDStr = scheduleDate2FDStr+Integer.parseInt(schedule2Hour)+":00:00";
+                        intentConfirmSchedule.putExtra("dateTime2",scheduleDate2FDStr);
+                    }else{
+                        intentConfirmSchedule.putExtra("date2", "");
+                        intentConfirmSchedule.putExtra("hour2","0");
+                        //scheduleDate2FDStr = scheduleDate2FDStr+Integer.parseInt(schedule2Hour)+":00:00";
+                        intentConfirmSchedule.putExtra("dateTime2","");
+                    }
+
+
+                    startActivity(intentConfirmSchedule);
+                }
             }
         });
 
@@ -349,7 +361,11 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
 
         //return dates;
     }
-
+    @Override
+    public void onBackPressed() {
+        Intent intentbacktoaddress = new Intent(this,ShowAllAddressActivity.class);
+        startActivity(intentbacktoaddress);
+    }
     private void getHours(){
         hours = new ArrayList<Integer>();
         for(int index=8;index<=17;index++){
@@ -630,6 +646,21 @@ public class DateConfigurationActivity2 extends AppCompatActivity {
         void onClick (View view, int position);
         void onLongClick(View view, int position);
     }
-
+    public void showDialog(String warning){
+        TextView msg = new TextView(this);
+        msg.setText(warning);
+        msg.setPadding(10,10,10,10);
+        msg.setGravity(Gravity.CENTER);
+        msg.setTextSize(15);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(msg);
+        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 
 }

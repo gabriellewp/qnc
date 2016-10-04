@@ -21,9 +21,9 @@ public class Receiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context,Intent intent) {
-        Log.d("startservice","intentservice");
+        //Log.d("startservice","intentservice");
         NOTIF_ID = (int)System.currentTimeMillis();
-        Log.d("startserviceext",NOTIF_ID+"");
+        //Log.d("startserviceext",NOTIF_ID+"");
         Intent notifIntent = new Intent(context, LandingPageActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context,NOTIF_ID, notifIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)

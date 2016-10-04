@@ -1,13 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/landingpage_background_2">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:background="#FFFFFF"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_account_box_black_24dp"
+            android:drawablePadding="5dp"
+            android:singleLine="true"
+            android:text="PENGATURAN AKUN"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/changePassword"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text = "Ubah Password"
+        android:background="@drawable/button_account_setting"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/landingpage_background"/>
     <Button
         android:id="@+id/logoutButton"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:text = "Logout"
-        android:background="@drawable/button_bg"
+        android:background="@drawable/button_account_setting"
         style="@style/Widget.AppCompat.Button.Colored"/>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/landingpage_background"/>
 </LinearLayout>

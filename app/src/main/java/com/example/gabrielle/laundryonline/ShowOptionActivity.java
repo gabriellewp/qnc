@@ -96,14 +96,14 @@ public class ShowOptionActivity extends Activity {
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed i
-                    Log.d("usershowoption","usersignin"+user.getUid());
+                    //Log.d("usershowoption","usersignin"+user.getUid());
                     uid = user.getUid();
 //                    User user1 = mDatabase.;
 //                    Log.d("usershowoption","usersigninname"+user_firstname);
                     mDatabase.addValueEventListener((new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
-                                Log.d("useruid",user.getUid());
+                                //Log.d("useruid",user.getUid());
 //                                if(snapshot.child("users").child(user.getUid()).child("verifiedTelNumber").getValue(String.class).toString()=="0"){
 //                                    showDialog();
 //                                }
@@ -136,8 +136,8 @@ public class ShowOptionActivity extends Activity {
                     }));
                 } else {
                     // User is signed out
-                    Log.d("authstatelistener1234" +
-                            "", "onAuthStateChanged:signed_out");
+                    //Log.d("authstatelistener1234" +
+                            //"", "onAuthStateChanged:signed_out");
                 }
                 // ...
             }
@@ -204,7 +204,7 @@ public class ShowOptionActivity extends Activity {
                     Calendar cal = Calendar.getInstance();
                     try{
                        date = df.parse(orderDate);
-                        Log.d("yearmonthdate",date.toString());
+                        //Log.d("yearmonthdate",date.toString());
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         cal.setTime(sdf.parse(orderDate));// all done
                     }catch(Exception e){
@@ -220,8 +220,8 @@ public class ShowOptionActivity extends Activity {
                         listPast.add(calendarDay);
                     }
 
-                    System.out.println(list.get(0));
-                    Log.d("listofcal",list.toString());
+                    //System.out.println(list.get(0));
+                    //Log.d("listofcal",list.toString());
                     if(list.size()!=0){
                         calendarViewMaterial.addDecorator(new OrderDecorator(Color.RED, list));
                     }

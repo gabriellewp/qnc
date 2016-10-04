@@ -37,17 +37,32 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout ll;
-        public TextView takenDate, packageType, status;
+        public TextView takenDate, packageType, status, datetakenFuture, timeFuture, addressLabelFuture, noteFuture, idPresent, dateTakenPresent, dateReturnPresent, idPast, dateTakenPast, dateReturnPast;
         public Button actionButton;
         private String orderID;
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, int timeRange) {
             super(view);
             view.setBackgroundResource(R.drawable.past_order_bg);
             ll = (LinearLayout) view.findViewById(R.id.linearlayoutorder);
-            takenDate = (TextView) view.findViewById(R.id.taken_date);
-            packageType = (TextView) view.findViewById(R.id.package_type);
-            status = (TextView) view.findViewById(R.id.history_status);
+//            takenDate = (TextView) view.findViewById(R.id.taken_date);
+//            packageType = (TextView) view.findViewById(R.id.package_type);
+//            status = (TextView) view.findViewById(R.id.history_status);
             actionButton = (Button) view.findViewById(R.id.delete_button);
+
+            if(timeRange==0){ //past
+                idPast = (TextView) view.findViewById(R.id.orderIDPast);
+                dateTakenPast = (TextView) view.findViewById(R.id.dateTakenPast);
+                dateReturnPast =(TextView) view.findViewById(R.id.dateReturnPast);
+            }else if(timeRange==1){ //present
+                idPresent = (TextView) view.findViewById(R.id.orderIDPresent);
+                dateTakenPresent =(TextView) view.findViewById(R.id.dateTakenPresent);
+                dateReturnPresent = (TextView) view.findViewById(R.id.dateReturnPresent);
+            }else if(timeRange==2){ //future
+                datetakenFuture = (TextView) view.findViewById(R.id.dateTakenFuture);
+                timeFuture = (TextView) view.findViewById(R.id.timeFuture);
+                addressLabelFuture = (TextView) view.findViewById(R.id.addressLabelFuture);
+                noteFuture = (TextView) view.findViewById(R.id.noteFuture);
+            }
 
         }
 
@@ -79,7 +94,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                     .inflate(R.layout.history_list_row_future, parent, false);
         }
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, timeRange);
 
     }
     @Override
@@ -89,28 +104,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         Log.d("masuksiniloh","onbindviewholder"+timeRange);
         holder.orderID = lo.getOrderID();
         Log.d("orderidinadaptert1",lo.getOrderID());
-        holder.takenDate.setText(lo.getTakenDate());
-        if(lo.getPackage_id()==0){
-            holder.packageType.setText("wash&fold");
-        }else{
-            holder.packageType.setText("wash&iron");
-        }
-        if(lo.getOrderStatus()==0){
-            holder.status.setText("in progress");
-        }else{
-            holder.status.setText("finished");
 
-        }
-        if(timeRange==1){
+        if(timeRange==1){ //present
             holder.actionButton.setText("STATUS DITERIMA");
+            holder.idPresent.setText("ID "+lo.getOrderID());
+            holder.dateTakenPresent.setText("WKT PENJEMPUTAN:"+lo.getTakenDate());
+            holder.dateReturnPresent.setText("WKT PENGIRIMAN"+lo.getReturnDate());
+        }else if(timeRange==0){ //past
+            holder.idPast.setText("ID "+lo.getOrderID());
+            holder.dateTakenPast.setText("WKT PENJEMPUTAN:"+lo.getTakenDate());
+            holder.dateReturnPast.setText("WKT PENGIRIMAN:"+lo.getReturnDate());
+        }else if(timeRange==2){ //future
+            holder.datetakenFuture.setText(lo.getTakenDate());
+            holder.addressLabelFuture.setText(lo.getAddressLabel());
+            holder.noteFuture.setText(lo.getNote());
         }
         holder.ll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 /// button click
                 //showDialog();
-                Log.d("orderlistposition",position+"");
-                Log.d("orderidinadapter",lo.getOrderID());
+                //Log.d("orderlistposition",position+"");
+                //Log.d("orderidinadapter",lo.getOrderID());
                 intentToDetailOrder.putExtra("orderID",holder.orderID);
                 intentToDetailOrder.putExtra("timeRange",1);
                 context.startActivity(intentToDetailOrder);
@@ -134,7 +149,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     }
     @Override
     public int getItemCount(){
-        Log.d("historadapteritemcount",orderList.size()+"");
+        //Log.d("historadapteritemcount",orderList.size()+"");
         return orderList.size();
     }
     public void showDialogPast(String id){
@@ -147,8 +162,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         alertDialogBuilder
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.d("review",reviewText.getText().toString());
-                        Log.d("ratingbar",String.valueOf(rtb.getRating()));
+                        //Log.d("review",reviewText.getText().toString());
+                        //Log.d("ratingbar",String.valueOf(rtb.getRating()));
                         mDatabase.child("laundryOrders").child(lo.getOrderID()).child("rating").setValue(String.valueOf(rtb.getRating()));
                         mDatabase.child("laundryOrders").child(lo.getOrderID()).child("review").setValue(reviewText.getText().toString());
                         dialog.cancel();

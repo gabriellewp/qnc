@@ -72,7 +72,7 @@ public class SessionManager {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             _context.startActivity(i);
-            Log.d("testcheckloggedin","++++");
+            //Log.d("testcheckloggedin","++++");
             //return false;
 
         }else if(this.isLoggedIn()){
@@ -81,7 +81,7 @@ public class SessionManager {
             ioption.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             ioption.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ioption.putExtra("user_email",getEmailPreferences());
-            Log.d("testcheckloggedin","----2");
+            //Log.d("testcheckloggedin","----2");
             _context.startActivity(ioption);
         }
     }

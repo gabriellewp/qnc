@@ -139,18 +139,21 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(intentShowOption);
             }
         });
         addAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intentNewAddress.putExtra("label","alladdress");
                 startActivity(intentNewAddress);
             }
         });
         dateConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(intentDateConfig);
             }
         });
@@ -173,10 +176,7 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
                 hashMap.put("detail",uad.getDetailAddress());
 
                 intentDateConfig.putExtra("map",hashMap);
-                // view.setBackgroundColor(getResources(R.color.placeSelectedBg));
-                //Toast.makeText(getApplicationContext(),lo.getTakenDate(),Toast.LENGTH_SHORT).show();
-                //showDialog();
-                //  view.setBackgroundColor(getResources()(R.color.placeUnselectedBg));
+
             }
 
             @Override
@@ -232,17 +232,17 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.d("gotomdatabasevaluelist","");
+                //Log.d("gotomdatabasevaluelist","");
                 //Log.d("orderhistoryobject",snapshot.child("laundryOrders").getValue().toString());
                 //Log.d("showalladdrsnap",snapshot.getValue().toString());
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Log.d("showalladdrsnap",postSnapshot.getValue().toString());
+                    //Log.d("showalladdrsnap",postSnapshot.getValue().toString());
                     UserAddressDetails uad = postSnapshot.getValue(UserAddressDetails.class);
                     if(!uad.getLabelAddress().equals("")){
                         addressList.add(uad);
                     }
 
-                    Log.d("addresslistsize2:",addressList.size()+"");
+                    //Log.d("addresslistsize2:",addressList.size()+"");
                     //Log.d("laundryordertakendate",lo.getTakenDate());
 
                 }
@@ -280,7 +280,7 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
     }
     public void drawMap(){
         //set latitude and longitude
-        Log.d("addresslistsize1:",addressList.size()+"");
+        //Log.d("addresslistsize1:",addressList.size()+"");
         LatLng latlng ;
 
         for(int i=0;i<addressList.size();i++){
@@ -289,7 +289,7 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
             Marker m = mMap.addMarker(new MarkerOptions().position(latlng).title(addressList.get(i).getLabelAddress()));
             arrOfMarker.add(m);
         }
-        Log.d("arroflatlngsize1:",arrOfLatLng.size()+"");
+        //Log.d("arroflatlngsize1:",arrOfLatLng.size()+"");
         mMap.moveCamera(CameraUpdateFactory.newLatLng(arrOfLatLng.get(0)));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
         mMap.setOnMarkerDragListener(this);
@@ -433,7 +433,7 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
             int returnvalue=0;
             try{
                 returnvalue = getAllAddress();
-                Log.d("returnvalue",returnvalue+"");
+                //Log.d("returnvalue",returnvalue+"");
                 Thread.sleep(5000);
             }catch(InterruptedException e){
                 return 0;
@@ -445,11 +445,12 @@ public class ShowAllAddressActivity extends FragmentActivity implements OnMapRea
         protected void onPostExecute(Integer result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
-            Log.d("addresslistsize3:",addressList.size()+"");
+            //Log.d("addresslistsize3:",addressList.size()+"");
 
-            Log.d("arroflatlngsize3:",arrOfLatLng.size()+"");
+            //Log.d("arroflatlngsize3:",arrOfLatLng.size()+"");
             if(addressList.size()==0){
                 showProgress(false);
+                intentNewAddress.putExtra("label","sizenull");
                 startActivity(intentNewAddress);
             }else{
                 setAdapter();

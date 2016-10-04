@@ -55,7 +55,7 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
     private ImageButton buttonNext, buttonPrev;
     private EditText addressOnMap,detailAddress, labelAddress;
     private GoogleApiClient googleApiClient;
-    private String email;
+    private String email,label;
     private Marker marker;
     private String placeAddress,placeDetail,placeLabel;
     private double placeLatitude;
@@ -75,7 +75,7 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
 
         setContentView(R.layout.activity_new_address_map);
         Intent intent = getIntent();
-
+        label = intent.getStringExtra("label");
         sessionMgr= new SessionManager(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -91,10 +91,15 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
         buttonNext = (ImageButton)findViewById(R.id.next_button);
         buttonPrev = (ImageButton) findViewById(R.id.prev_button);
         intentShowOption =  new Intent(this, ShowOptionActivity.class);
+        intentShowAllAddress = new Intent(this,ShowAllAddressActivity.class);
         buttonPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(intentShowOption);
+                if(label.equals("alladdress")){
+                    startActivity(intentShowAllAddress);
+                }else{
+                    startActivity(intentShowOption);
+                }
             }
         });
         buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +119,7 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
         autocompleteFragment.setOnPlaceSelectedListener(this);
 
         progressBarLayout = (LinearLayout)findViewById(R.id.new_address_progress_layout);
-        intentShowAllAddress = new Intent(this,ShowAllAddressActivity.class);
+
     }
 
     @Override
@@ -173,6 +178,16 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
         } catch (Exception ex) {
             //Log.e( "Error creating location service: " , ex.getMessage() );
 
+        }
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(label.equals("alladdress")){
+            startActivity(intentShowAllAddress);
+        }else{
+            startActivity(intentShowOption);
         }
 
     }
@@ -316,23 +331,29 @@ public class NewAddressMapActivity extends FragmentActivity implements OnMapRead
         addressOnMap.setError(null);
         detailAddress.setError(null);
         labelAddress.setError(null);
+        boolean cancel = false;
         placeAddress = addressOnMap.getText().toString();
         placeDetail = detailAddress.getText().toString();
         placeLabel = labelAddress.getText().toString();
         if(placeAddress.length()==0){
-            progressBarLayout.setVisibility(View.GONE);
+            cancel = true;
             addressOnMap.setError("alamat tidak boleh kosong");
             focusView = addressOnMap;
         }else if(placeDetail.length()==0){
-            progressBarLayout.setVisibility(View.GONE);
+            cancel = true;
             detailAddress.setError("detail tidak boleh kosong");
             focusView = detailAddress;
         }else if(labelAddress.length()==0){
-            progressBarLayout.setVisibility(View.GONE);
+            cancel = true;
             labelAddress.setError("label tidak boleh kosong");
             focusView = labelAddress;
-        }else{
-            Log.d("createaddress",sessionMgr.getUidPreferences());
+        }
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();}
+        else {
+            //Log.d("createaddress",sessionMgr.getUidPreferences());
             progressBarLayout.setVisibility(View.VISIBLE);
             UserAddressDetails userAddress = new UserAddressDetails();
             userAddress.setUsername_id(sessionMgr.getUidPreferences());

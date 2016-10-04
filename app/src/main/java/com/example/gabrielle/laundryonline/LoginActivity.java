@@ -18,6 +18,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -114,9 +115,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.d("lgoinwithfb","test1");
+                            //Log.d("lgoinwithfb","test1");
                             if(!dataSnapshot.exists()){ //login with fb and google
-                                Log.d("nochildwithfacebookid",user.getUid());
+                                //Log.d("nochildwithfacebookid",user.getUid());
                                 User newUser = new User();
                                 newUser.setUsername_ID(user.getUid());
                                 SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -131,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                                 }
                             }else{
-                                Log.d("childwiththisfacebookid","");
+                                //Log.d("childwiththisfacebookid","");
                             }
 
                         }
@@ -154,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 }catch(Exception e) {
 
                                 }
-                                Log.d("telNumberusersnapshot",telNumber);
+                                //Log.d("telNumberusersnapshot",telNumber);
                                 intentGetToken.putExtra("telNumber",telNumber);
                                 intentGetToken.putExtra("uid",user.getUid());
 
@@ -166,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.add(Calendar.DATE, 5);
                                 long when = calendar.getTimeInMillis();
-                                Log.d("logoutday",calendar.getTime()+"");
+                                //Log.d("logoutday",calendar.getTime()+"");
                                 Intent myIntent = new Intent(LoginActivity.this , AutoLogout.class);
                                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
                                 int uniqueID = (int)when;
@@ -185,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 } else {
                     // User is signed out
-                    Log.d("authstatelistener123", "onAuthStateChanged:signed_out");
+                    //Log.d("authstatelistener123", "onAuthStateChanged:signed_out");
                 }
                 // ...
             }
@@ -235,6 +236,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         };
         ss.setSpan(clickableSpan, 0, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new UnderlineSpan(),0,21,0);
         forgetPasswordTV.setText(ss);
         forgetPasswordTV.setMovementMethod(LinkMovementMethod.getInstance());
         forgetPasswordTV.setHighlightColor(Color.TRANSPARENT);
@@ -252,7 +254,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
-                        Log.d("facebookatemptlogin","success");
+                        //Log.d("facebookatemptlogin","success");
                         session.createLoginOption(1);
 
                         handleFacebookAccessToken(loginResult.getAccessToken());
@@ -262,13 +264,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onCancel() {
                         // App code
-                        Log.d("facebookatemptlogin","cancel");
+                        //Log.d("facebookatemptlogin","cancel");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
-                        Log.d("facebookatemptlogin","fail"+exception.toString());
+                        //Log.d("facebookatemptlogin","fail"+exception.toString());
                     }
                 });
         ImageButton fb = (ImageButton) findViewById(R.id.fb);
@@ -294,11 +296,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
         SignInButton googleLoginButton = (SignInButton) findViewById(R.id.google_sign_in_button);
         ImageButton googlesigninIB = (ImageButton)findViewById(R.id.googlesignin);
-        Log.d("scopearray",gso.getScopeArray().length+"");
+        //Log.d("scopearray",gso.getScopeArray().length+"");
         googlesigninIB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("googlelogin","test1");
+                //Log.d("googlelogin","test1");
                 session.createLoginOption(2);
                 googleSignIn();
             }
@@ -309,7 +311,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("googlelogin","test1");
+                //Log.d("googlelogin","test1");
                 session.createLoginOption(2);
                 googleSignIn();
             }
@@ -453,7 +455,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d("onConnectionFailed:" ,connectionResult.toString());
+        //Log.d("onConnectionFailed:" ,connectionResult.toString());
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
     /**
@@ -463,22 +465,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("googlesignin","onactivityresult");
+        //Log.d("googlesignin","onactivityresult");
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            Log.d("googlesignin","onactivityresultrcsignin");
+            //Log.d("googlesignin","onactivityresultrcsignin");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             int statusCode = result.getStatus().getStatusCode();
-            Log.d("statuscodegooglesignin",statusCode+"");
+            //Log.d("statuscodegooglesignin",statusCode+"");
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
-                Log.d("googlesignin","success");
+                //Log.d("googlesignin","success");
                 GoogleSignInAccount account = result.getSignInAccount();
                // mFullName = acct.getDisplayName();
                // mEmail = acct.getEmail();
                 firebaseAuthWithGoogle(account);
             } else {
-                Log.d("googlesignin","failed");
+                //Log.d("googlesignin","failed");
                 // Google Sign In failed, update UI appropriately
                 // [START_EXCLUDE]
                 GoogleSignInAccount account = result.getSignInAccount();
@@ -494,7 +496,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d( "firebaseAuthWithGoogle:" ,acct.getId());
+        //Log.d( "firebaseAuthWithGoogle:" ,acct.getId());
         // [START_EXCLUDE silent]
         showProgress(true);
         // [END_EXCLUDE]
@@ -540,7 +542,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
     // [START auth_with_facebook]
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d("handleFacebooktoken",token.getToken()+"");
+        //Log.d("handleFacebooktoken",token.getToken()+"");
         // [START_EXCLUDE silent]
         showProgress(true);
         // [END_EXCLUDE]
@@ -557,13 +559,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("fbsignin:onComplete:", task.isSuccessful()+"");
+                        //Log.d("fbsignin:onComplete:", task.isSuccessful()+"");
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w("fbsigninCredentialfail", task.getException());
+                            //Log.w("fbsigninCredentialfail", task.getException());
 
                         }else{
                             //showProgress(false);

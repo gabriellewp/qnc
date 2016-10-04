@@ -52,13 +52,14 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_confirm_schedule);
-        Log.d("confirmschedule","test1");
+        //Log.d("confirmschedule","test1");
         intentDateActivity = getIntent();
+        noteEDStr="";
         session= new SessionManager(getApplicationContext());
         sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         intentToShowOption = new Intent(this, ShowOptionActivity.class);
         hashMap = (HashMap<String, String>)intentDateActivity.getSerializableExtra("map");
-        Log.v("HashMapTest", hashMap.get("label")); //label,address,detail
+        //Log.v("HashMapTest", hashMap.get("label")); //label,address,detail
         labelTV = (TextView) findViewById(R.id.labelAddress);
         completeTV = (TextView) findViewById(R.id.completeAddress);
         detailTV = (TextView) findViewById(R.id.detailAddress);
@@ -89,11 +90,20 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         completeTV.setText(hashMap.get("address"));
         detailTV.setText(hashMap.get("detail"));
         hour1 = intentDateActivity.getStringExtra("hour1");
-        hour2 =  intentDateActivity.getStringExtra("hour2");
+
         date1TV.setText(intentDateActivity.getStringExtra("date1"));
         jam1TV.setText(hour1);
-        date2TV.setText(intentDateActivity.getStringExtra("date2"));
-        jam2TV.setText(hour2);
+        if(intentDateActivity.getStringExtra("date2")==""){
+            date2TV.setText("-");
+        }else{
+            date2TV.setText(intentDateActivity.getStringExtra("date2"));
+        }
+        hour2 =  intentDateActivity.getStringExtra("hour2");
+        if(hour2.equals("0")){
+            jam2TV.setText("-");
+        }else {
+            jam2TV.setText(hour2);
+        }
         dateTime1Str = intentDateActivity.getStringExtra("dateTime1");
         dateTime2Str = intentDateActivity.getStringExtra("dateTime2");
         try{
@@ -101,16 +111,18 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
             calDate1Done.setTime(sdf.parse(dateTime1Str));
             calDate1Done.add(Calendar.DATE, 3);
             date1Done = sdf.format(calDate1Done.getTime());
+            if(!hour2.equals("0")){
+                calDate2Done = Calendar.getInstance();
+                calDate2Done.setTime(sdf.parse(dateTime2Str));
+                calDate2Done.add(Calendar.DATE, 3);
+                date2Done = sdf.format(calDate2Done.getTime());
+            }
 
-            calDate2Done = Calendar.getInstance();
-            calDate2Done.setTime(sdf.parse(dateTime2Str));
-            calDate2Done.add(Calendar.DATE, 3);
-            date2Done = sdf.format(calDate2Done.getTime());
         }catch (Exception e){
 
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Log.d("confirmschedule","test2");
+        //Log.d("confirmschedule","test2");
     }
     public void showDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -127,7 +139,8 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
     public void submitSchedule(){
         progressBar.setVisibility(View.VISIBLE);
         LaundryOrder lo1 = new LaundryOrder();
-        lo1.setAddressLabel(intentDateActivity.getStringExtra("label"));
+        LaundryOrder lo2 = new LaundryOrder();
+        lo1.setAddressLabel(hashMap.get("label"));
         lo1.setNote(noteEDStr);
         lo1.setOrderID("");
         lo1.setOrderStatus(1);
@@ -141,25 +154,29 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         lo1.setUsername_id(session.getUidPreferences());
         lo1.setWeight(10);
         lo1.setRating("0.0");
-
-        LaundryOrder lo2 = new LaundryOrder();
-        lo2.setAddressLabel(intentDateActivity.getStringExtra("label"));
-        lo2.setNote(noteEDStr);
-        lo2.setOrderID("");
-        lo2.setOrderStatus(1);
-        lo2.setPackage_id(0);
-        lo2.setPaymentStatus(1);
-        lo2.setPrice(7000);
-        lo2.setReturnDate(date2Done);
-        lo2.setReturnTime(Integer.parseInt(hour2));
-        lo2.setTakenDate(dateTime2Str);
-        lo2.setTakenTime(Integer.parseInt(hour2));
-        lo2.setUsername_id(session.getUidPreferences());
-        lo2.setWeight(11);
-        lo2.setRating("0.0");
+        if(!hour2.equals("0")){
+            Log.d("getinhere","createord2");
+            lo2.setAddressLabel(hashMap.get("label"));
+            lo2.setNote(noteEDStr);
+            lo2.setOrderID("");
+            lo2.setOrderStatus(1);
+            lo2.setPackage_id(0);
+            lo2.setPaymentStatus(1);
+            lo2.setPrice(7000);
+            lo2.setReturnDate(date2Done);
+            lo2.setReturnTime(Integer.parseInt(hour2));
+            lo2.setTakenDate(dateTime2Str);
+            lo2.setTakenTime(Integer.parseInt(hour2));
+            lo2.setUsername_id(session.getUidPreferences());
+            lo2.setWeight(11);
+            lo2.setRating("0.0");
+        }
 
         mDatabase.child("laundryOrders").push().setValue(lo1);
-        mDatabase.child("laundryOrders").push().setValue(lo2);
+        if(!hour2.equals("0")){
+            mDatabase.child("laundryOrders").push().setValue(lo2);
+        }
+
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
@@ -175,27 +192,29 @@ public class ConfirmScheduleActivity extends AppCompatActivity {
         try{
             calendaralarm.setTime(sdf.parse(dateTime1Str));// all done
             //calendaralarm.set(year1,month1,date1,Integer.parseInt(hour1),0,0);
-            Log.d("calendaralarmdate1",calendaralarm.getTime()+"");
+            //Log.d("calendaralarmdate1",calendaralarm.getTime()+"");
             when  = calendaralarm.getTimeInMillis();
             Intent myIntent = new Intent(this , Receiver.class);
             AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
             uniqueID = (int)when;
             PendingIntent pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.set(AlarmManager.RTC, when, pi);
+            if(!hour2.equals("0")){
+                calendaralarm.setTime(sdf.parse(dateTime2Str));// all done
+                //Log.d("calendaralarmdate2",calendaralarm.getTime()+"");
+                when  = calendaralarm.getTimeInMillis();
+                myIntent = new Intent(this , Receiver.class);
+                alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                uniqueID = (int)when;
+                pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.set(AlarmManager.RTC, when, pi);
+            }
 
-            calendaralarm.setTime(sdf.parse(dateTime1Str));// all done
-            Log.d("calendaralarmdate2",calendaralarm.getTime()+"");
-            when  = calendaralarm.getTimeInMillis();
-            myIntent = new Intent(this , Receiver.class);
-            alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-            uniqueID = (int)when;
-            pi = PendingIntent.getBroadcast(this, uniqueID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.set(AlarmManager.RTC, when, pi);
 
         }catch (Exception e){}
 
 
-        Log.d("calendaralarmdate",calendaralarm.getTime()+"");
+        //Log.d("calendaralarmdate",calendaralarm.getTime()+"");
 
         progressBar.setVisibility(View.GONE);
         showDialog();

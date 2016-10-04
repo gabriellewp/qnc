@@ -26,6 +26,7 @@
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:gravity="center"
+
         >
         <ImageView android:id="@+id/loginlogo"
             android:layout_width="wrap_content"
@@ -36,6 +37,20 @@
             android:src="@drawable/logo_white"
             android:background="@color/landingpage_background"
             />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="KONFIRMASI NOMOR TELEPON"
+            android:layout_marginBottom="3dp"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textColor="#FFFFFF"
+            android:text="MASUKKAN KODE YANG DIKIRIMKAN MELALUI PESAN SINGKAT KE NOMOR TELEPON ANDA"
+            android:textSize="13sp"/>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,26 +61,62 @@
                 android:id="@+id/codeInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Verification Code"
+                android:hint=""
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="#E9FA3E"
                 android:textSize="18sp"
                 />
-
         </android.support.design.widget.TextInputLayout>
-        <Button
-            android:id="@+id/verifyingCodeButton"
+
+        <TextView android:id="@+id/kirimUlangKode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="10dp"
-            android:text="Verify"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/button_bg"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:textColor="#210000"
+            android:text=""
+            android:layout_gravity="left"
+            android:paddingTop="10dp"
+            android:textColor="#FFFFFF"
             />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <Button
+                android:id="@+id/batalKonfirmasiButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Batal"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_bg"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="#210000"
+
+                />
+            <Button
+                android:id="@+id/verifyingCodeButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="KONFIRMASI"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_bg"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="#210000"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

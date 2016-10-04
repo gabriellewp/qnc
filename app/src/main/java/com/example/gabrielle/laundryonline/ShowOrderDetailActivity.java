@@ -84,9 +84,9 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
 
         idPesananTV.setText(orderId);
 
-        Log.d("takendate1",lo.getTakenDate());
+        //Log.d("takendate1",lo.getTakenDate());
 
-        Log.d("orderdetail","test1");
+        //Log.d("orderdetail","test1");
 
     }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -133,9 +133,9 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.d("gotomdatabasevaluelist","");
+                //Log.d("gotomdatabasevaluelist","");
                 //Log.d("orderhistoryobject",snapshot.child("laundryOrders").getValue().toString());
-                Log.d("orderhistorystrigxxx",snapshot.getValue().toString());
+                //Log.d("orderhistorystrigxxx",snapshot.getValue().toString());
                 LaundryOrder dbLo = snapshot.getValue(LaundryOrder.class);
                 //orderList.add(dbLo);
                 rating = snapshot.child("rating").getValue().toString();
@@ -189,7 +189,7 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
             //Log.d("orderlist3:",orderList.size()+"");
-            Log.d("orderstatus1",lo.getOrderStatus()+"");
+            //Log.d("orderstatus1",lo.getOrderStatus()+"");
             if(lo.getOrderStatus()==0){
                 statusTV.setText("complete");
             }else{
@@ -197,7 +197,7 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
             }
             tglpenjemputanTV.setText(lo.getTakenDate());
             wktpenjemputanTV.setText(String.valueOf(lo.getTakenTime()));
-            Log.d("addresslabel1",lo.getAddressLabel());
+            //Log.d("addresslabel1",lo.getAddressLabel());
             alamatTV.setText(lo.getAddressLabel());
             noteTV.setText(lo.getNote());
             tanggalKirimTV.setText(lo.getReturnDate());
@@ -209,7 +209,7 @@ public class ShowOrderDetailActivity extends AppCompatActivity {
             kualitaslayananTV.setText("");
             //Log.d("ratingdrdb",lo.getRating());
             numRating = Float.parseFloat(rating);
-            Log.d("test2",numRating+"");
+            //Log.d("test2",numRating+"");
             ratingBarOrder.setRating(numRating);
 
 
